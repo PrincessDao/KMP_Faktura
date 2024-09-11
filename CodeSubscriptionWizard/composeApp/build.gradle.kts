@@ -50,12 +50,8 @@ kotlin {
                 implementation(compose.preview)
                 implementation(libs.androidx.activity.compose)
                 implementation(libs.decompose)
-                implementation(compose.ui)
-                implementation(compose.material3)
                 implementation(libs.androidx.core.ktx)
                 implementation(libs.androidx.material3.android)
-                implementation(libs.androidx.lifecycle.viewmodel)
-                implementation(libs.androidx.lifecycle.runtime.compose)
                 implementation(libs.androidx.activity)
             }
         }
@@ -99,5 +95,5 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.core)
     implementation(libs.androidx.navigation.runtime.ktx)
-    implementation("androidx.navigation:navigation-compose:2.7.0")
+    implementation(libs.androidx.navigation.compose)
 }

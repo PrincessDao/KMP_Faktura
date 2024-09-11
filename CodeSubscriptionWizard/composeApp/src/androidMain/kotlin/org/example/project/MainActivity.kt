@@ -40,6 +40,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("InvalidColorHexValue")
 @Composable
 fun NavigationGraph(navController: NavHostController, setSurfaceColor: (Color) -> Unit) {
     NavHost(navController = navController, startDestination = "code_entry") {
