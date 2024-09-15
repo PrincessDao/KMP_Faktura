@@ -1,5 +1,5 @@
 [versions]
-agp = "8.1.1"
+agp = "8.6.0"
 android-compileSdk = "34"
 android-minSdk = "24"
 android-targetSdk = "34"
@@ -17,6 +17,7 @@ compose-ui = "1.7.0"
 junit = "4.13.2"
 kotlin = "2.0.0"
 decompose = "3.1.0"
+kotlinxCoroutinesCore = "1.6.4"
 kotlinxSerializationJson = "1.6.3"
 material3Android = "1.3.0"
 activity = "1.9.2"
@@ -37,6 +38,7 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-lifecycle-viewmodel = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3", version.ref = "material3Android" }
 compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose-ui" }

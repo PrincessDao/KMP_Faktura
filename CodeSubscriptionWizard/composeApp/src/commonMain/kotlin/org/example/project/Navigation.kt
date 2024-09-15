@@ -4,3 +4,5 @@ interface NavigationController {
     fun navigate(route: String)
     fun popBackStack()
 }
+
+expect fun provideNavigationController(): NavigationController

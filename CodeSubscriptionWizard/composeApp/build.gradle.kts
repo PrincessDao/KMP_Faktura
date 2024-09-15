@@ -49,12 +49,18 @@ kotlin {
             dependencies {
                 implementation(compose.preview)
                 implementation(libs.androidx.activity.compose)
-                implementation(libs.decompose)
                 implementation(libs.androidx.core.ktx)
                 implementation(libs.androidx.material3.android)
                 implementation(libs.androidx.activity)
             }
         }
+
+        val iosMain by creating {
+            dependencies {
+                implementation(libs.kotlinx.coroutines.core)
+            }
+        }
+
     }
 }
 
