@@ -1,5 +1,5 @@
 package org.example.project
-
+/*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -57,7 +57,7 @@ val subscriptions = listOf(
 
 )
 
-/*@Composable
+@Composable
 @Preview
 fun SubscriptionListScreen(navController: NavigationController) {
     Column(

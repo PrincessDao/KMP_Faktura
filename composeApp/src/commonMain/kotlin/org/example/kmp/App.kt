@@ -1,26 +1,19 @@
 package org.example.kmp
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
 import kmp_faktura.composeapp.generated.resources.Res
-import kmp_faktura.composeapp.generated.resources.compose_multiplatform
+import kmp_faktura.composeapp.generated.resources.code_one
+import kmp_faktura.composeapp.generated.resources.code_two
+import kmp_faktura.composeapp.generated.resources.code_three
+import org.jetbrains.compose.resources.DrawableResource
 
 @Composable
 @Preview
@@ -28,45 +21,65 @@ fun App() {
     MaterialTheme {
         var currentScreen by remember { mutableStateOf("main") }
 
-        when (currentScreen) {
-            "main" -> {
-                Column(
-                    Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
+        Scaffold(
+            bottomBar = {
+                BottomNavigation(
+                    backgroundColor = Color.White,
+                    contentColor = Color.Black
                 ) {
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        Button(
+                    val items = listOf(
+                        BottomNavItem("Виталий", Res.drawable.code_one),
+                        BottomNavItem("Яна", Res.drawable.code_two),
+                        BottomNavItem("Иннокентий", Res.drawable.code_three)
+                    )
+
+                    items.forEachIndexed { index, item ->
+                        BottomNavigationItem(
+                            icon = { Icon(painterResource(item.iconRes), contentDescription = null) },
+                            label = { Text(item.label) },
+                            selected = currentScreen == getScreenForIndex(index),
                             onClick = {
-                                currentScreen = "codeSubscription"
+                                currentScreen = getScreenForIndex(index)
                             },
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text("Виталий")
-                        }
-                        Button(
-                            onClick = {},
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text("Яна")
-                        }
-                        Button(
-                            onClick = {},
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text("Иннокентий")
-                        }
+                            selectedContentColor = Color.Blue,
+                            unselectedContentColor = Color.Gray
+                        )
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
-            "codeSubscription" -> {
-                CodeSubscription()
+        ) { innerPadding ->
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                when (currentScreen) {
+                    "codeSubscription" -> {
+                        CodeSubscription()
+                    }
+                    "Экраны Яны" -> {
+                        Screens2() //Поменяйте названия
+                    } //Поменяйте названия
+                    "Экраны Иннокентия" -> {
+                        Screens3() //Поменяйте названия
+                    } //Поменяйте названия
+                    else -> {
+                        Text("Главный экран", Modifier.padding(16.dp))
+                    }
+                }
             }
         }
     }
 }
+
+fun getScreenForIndex(index: Int): String {
+    return when (index) {
+        0 -> "codeSubscription"
+        1 -> "Экраны Яны" //Поменяйте названия
+        2 -> "Экраны Иннокентия" //Поменяйте названия
+        else -> "main"
+    }
+}
+
+data class BottomNavItem(val label: String, val iconRes: DrawableResource)

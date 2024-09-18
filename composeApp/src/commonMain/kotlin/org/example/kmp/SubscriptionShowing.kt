@@ -1,5 +1,5 @@
 package org.example.project
-
+/*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -42,7 +42,7 @@ import kmp_faktura.composeapp.generated.resources.star
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-/*@Composable
+@Composable
 @Preview
 fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navController: NavigationController) {
     var expanded by remember { mutableStateOf(false) }

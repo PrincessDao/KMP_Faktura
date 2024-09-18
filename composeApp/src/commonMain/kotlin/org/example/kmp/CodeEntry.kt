@@ -1,5 +1,5 @@
 package org.example.project
-
+/*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -51,7 +51,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 val customRippleColor = Color(0xff4C85FF)
 
-/*@Composable
+@Composable
 @Preview
 fun CodeEntryScreen(navController: NavigationController) {
     var inputCode by remember { mutableStateOf("") }
