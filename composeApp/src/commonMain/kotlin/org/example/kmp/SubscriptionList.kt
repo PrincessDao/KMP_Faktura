@@ -1,5 +1,5 @@
-package org.example.project
-/*
+package org.example.kmp
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -59,7 +59,7 @@ val subscriptions = listOf(
 
 @Composable
 @Preview
-fun SubscriptionListScreen(navController: NavigationController) {
+fun SubscriptionListScreen(navigationController: NavigationController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -69,7 +69,7 @@ fun SubscriptionListScreen(navController: NavigationController) {
                 .fillMaxWidth()
                 .padding(start = 8.dp),
         ) {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = { navigationController.popBackStack() }) {
                 Image(
                     painter = painterResource(Res.drawable.arrow_left),
                     contentDescription = "Назад",
@@ -146,7 +146,7 @@ fun SubscriptionListScreen(navController: NavigationController) {
                                 .background(Color.White)
                                 .padding(16.dp)
                                 .clickable {
-                                    navController.navigate("subscription_showing/${subscription.first}/${subscription.second}/${subscription.third}")
+                                    navigationController.navigate("subscription_showing/${subscription.first}/${subscription.second}/${subscription.third}")
                                 },
                             verticalAlignment = Alignment.CenterVertically
                         ) {
@@ -203,4 +203,4 @@ fun SubscriptionListScreen(navController: NavigationController) {
             }
         }
     }
-}*/
+}

@@ -1,5 +1,5 @@
-package org.example.project
-/*
+package org.example.kmp
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -53,7 +53,7 @@ val customRippleColor = Color(0xff4C85FF)
 
 @Composable
 @Preview
-fun CodeEntryScreen(navController: NavigationController) {
+fun CodeEntryScreen(navigationController: NavigationController) {
     var inputCode by remember { mutableStateOf("") }
     Column(
         modifier = Modifier
@@ -173,7 +173,7 @@ fun CodeEntryScreen(navController: NavigationController) {
                                                 inputCode += item
                                             }
                                             if (inputCode.length == 4) {
-                                                navController.navigate("subscription_list")
+                                                navigationController.navigate("subscription_list")
                                             }
                                         }
                                     },
@@ -219,4 +219,3 @@ fun CodeEntryScreen(navController: NavigationController) {
         Spacer(modifier = Modifier.weight(0.08f))
     }
 }
-*/

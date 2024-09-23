@@ -1,5 +1,5 @@
-package org.example.project
-/*
+package org.example.kmp
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -44,7 +44,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
-fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navController: NavigationController) {
+fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navigationController: NavigationController) {
     var expanded by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
@@ -55,7 +55,7 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navC
                 .fillMaxWidth()
                 .padding(start = 8.dp),
         ) {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = { navigationController.popBackStack() }) {
                 Image(
                     painter = painterResource(Res.drawable.arrow_left),
                     contentDescription = "Назад",
@@ -305,4 +305,4 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navC
             }
         }
     }
-}*/
+}

@@ -1,5 +1,5 @@
-package com.example.cft_settings.android.ui.theme
-/*
+package org.example.kmp
+
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -37,4 +37,4 @@ fun MyApplicationTheme(
         typography = AppTypography,
         content = content
     )
-}*/
+}

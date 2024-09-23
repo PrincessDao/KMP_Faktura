@@ -34,6 +34,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(compose.components.uiToolingPreview)
+            implementation(libs.androidx.navigation.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -44,6 +45,8 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(compose.material3)
+            implementation(libs.navigation.compose)
         }
     }
 }
@@ -90,5 +93,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.ui.android)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.core)
 }
 

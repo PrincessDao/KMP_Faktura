@@ -14,13 +14,22 @@ androidx-test-junit = "1.2.1"
 compose-plugin = "1.6.11"
 junit = "4.13.2"
 kotlin = "2.0.20"
-material = "1.7.1"
+lifecycleRuntimeKtx = "2.6.2"
+material = "1.7.2"
 material3Android = "1.3.0"
 kotlinxSerializationJson = "1.6.3"
+materialVersion = "1.5.0"
+navigationCompose = "2.8.1"
+navigationComposeVersion = "2.7.0-alpha07"
 uiToolingPreview = "1.7.1"
 uiAndroid = "1.7.1"
+activityKtx = "1.9.2"
+core = "1.13.1"
 
 [libraries]
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-material-v150 = { module = "androidx.compose.material:material", version.ref = "materialVersion" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-ui = { module = "androidx.compose.ui:ui", version.ref = "uiToolingPreview" }
 androidx-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "uiToolingPreview" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -38,6 +47,9 @@ androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 material = { module = "androidx.compose.material:material", version.ref = "material" }
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
+navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
+androidx-activity-ktx = { group = "androidx.activity", name = "activity-ktx", version.ref = "activityKtx" }
+androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
