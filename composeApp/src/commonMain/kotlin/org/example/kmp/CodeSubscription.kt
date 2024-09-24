@@ -13,10 +13,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun CodeSubscription(/*platformController: PlatformController*/) {
+fun CodeSubscription(platformController: PlatformController) {
     val navController = rememberNavController()
     val navigationController = NavigationControllerCross(navController)
-    SubscriptionScreens(navController = navController, navigationController = navigationController/*, platformController = platformController*/)
+    SubscriptionScreens(navController = navController, navigationController = navigationController, platformController = platformController)
 }
 
 @Composable
@@ -24,22 +24,22 @@ fun NavigationGraph(
     navController: NavHostController,
     setSurfaceColor: (Color) -> Unit,
     navigationController: NavigationController,
-    /*platformController: PlatformController*/
+    platformController: PlatformController
 ) {
     NavHost(navController = navController, startDestination = "code_entry") {
         composable("code_entry") {
             setSurfaceColor(Color(0xffFFFFFFFF))
-            //platformController.setStatusBarColor(0xffFFFFFFFF.toInt())
+            platformController.setStatusBarColor(0xffFFFFFFFF.toInt())
             CodeEntryScreen(navigationController)
         }
         composable("subscription_list") {
             setSurfaceColor(Color(0xffFF17093d))
-            //platformController.setStatusBarColor(0xffFF17093d.toInt())
+            platformController.setStatusBarColor(0xffFF17093d.toInt())
             SubscriptionListScreen(navigationController)
         }
         composable("subscription_showing/{first}/{second}/{third}") { backStackEntry ->
             setSurfaceColor(Color(0xffFF17093d))
-            //platformController.setStatusBarColor(0xffFF17093d.toInt())
+            platformController.setStatusBarColor(0xffFF17093d.toInt())
             val first = backStackEntry.arguments?.getString("first") ?: ""
             val second = backStackEntry.arguments?.getString("second") ?: ""
             val third = backStackEntry.arguments?.getString("third") ?: ""
@@ -51,7 +51,7 @@ fun NavigationGraph(
     }
 }
 @Composable
-fun SubscriptionScreens(navController: NavHostController, navigationController: NavigationController/*, platformController: PlatformController*/) {
+fun SubscriptionScreens(navController: NavHostController, navigationController: NavigationController, platformController: PlatformController) {
     val (surfaceColor, setSurfaceColor) = remember { mutableStateOf(Color(0xffFF17093d)) }
 
     Surface(
@@ -62,7 +62,7 @@ fun SubscriptionScreens(navController: NavHostController, navigationController: 
             navController = navController,
             setSurfaceColor = setSurfaceColor,
             navigationController = navigationController,
-            //platformController = platformController // Передаем сюда
+            platformController = platformController
         )
     }
 }
