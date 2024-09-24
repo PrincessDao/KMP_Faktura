@@ -48,6 +48,12 @@ kotlin {
             implementation(compose.material3)
             implementation(libs.navigation.compose)
         }
+        iosMain.dependencies {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+                implementation("androidx.compose.ui:ui:1.4.3")
+            }
+        }
     }
 }
 
