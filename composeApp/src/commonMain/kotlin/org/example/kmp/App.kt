@@ -13,6 +13,7 @@ import kmp_faktura.composeapp.generated.resources.Res
 import kmp_faktura.composeapp.generated.resources.code_one
 import kmp_faktura.composeapp.generated.resources.code_two
 import kmp_faktura.composeapp.generated.resources.code_three
+import kmp_faktura.composeapp.generated.resources.code_four
 import org.jetbrains.compose.resources.DrawableResource
 
 @Composable
@@ -32,7 +33,8 @@ fun App(platformController: PlatformController) {
                     val items = listOf(
                         BottomNavItem("Виталий", Res.drawable.code_one),
                         BottomNavItem("Яна", Res.drawable.code_two),
-                        BottomNavItem("Иннокентий", Res.drawable.code_three)
+                        BottomNavItem("Иннокентий", Res.drawable.code_three),
+                        BottomNavItem("Никита", Res.drawable.code_four)
                     )
 
                     items.forEachIndexed { index, item ->
@@ -69,6 +71,10 @@ fun App(platformController: PlatformController) {
                        platformController.setStatusBarColor(0xFFFFFFFF.toInt())
                         Screens3() //Поменяйте названия
                     } //Поменяйте названия
+                    "Экраны Никиты" -> {
+                        platformController.setStatusBarColor(0xFFFFFFFF.toInt())
+                        Screens4() //Поменяйте названия
+                    } //Поменяйте названия
                     else -> {
                         Text("Главный экран", Modifier.padding(16.dp))
                     }
@@ -83,6 +89,7 @@ fun getScreenForIndex(index: Int): String {
         0 -> "codeSubscription"
         1 -> "Экраны Яны" //Поменяйте названия
         2 -> "Экраны Иннокентия" //Поменяйте названия
+        3 -> "Экраны Никиты" //Поменяйте названия
         else -> "main"
     }
 }

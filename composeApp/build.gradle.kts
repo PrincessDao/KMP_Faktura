@@ -50,8 +50,8 @@ kotlin {
         }
         iosMain.dependencies {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-                implementation("androidx.compose.ui:ui:1.4.3")
+                implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.androidx.ui.v143)
             }
         }
     }
