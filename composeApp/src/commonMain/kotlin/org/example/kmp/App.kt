@@ -17,11 +17,11 @@ import org.jetbrains.compose.resources.DrawableResource
 
 @Composable
 @Preview
-fun App(platformController: PlatformController) {
+fun App(/*platformController: PlatformController*/) {
     MaterialTheme {
         var currentScreen by remember { mutableStateOf("main") }
 
-        platformController.setStatusBarColor(0xFFFFFFFF.toInt())
+        //platformController.setStatusBarColor(0xFFFFFFFF.toInt())
 
         Scaffold(
             bottomBar = {
@@ -58,15 +58,15 @@ fun App(platformController: PlatformController) {
             ) {
                 when (currentScreen) {
                     "codeSubscription" -> {
-                        platformController.setStatusBarColor(0xFFFFFFFF.toInt())
-                        CodeSubscription(platformController)
+                        //platformController.setStatusBarColor(0xFFFFFFFF.toInt())
+                        CodeSubscription(/*platformController*/)
                     }
                     "Экраны Яны" -> {
-                        platformController.setStatusBarColor(0xFFFFFFFF.toInt())
+                        //platformController.setStatusBarColor(0xFFFFFFFF.toInt())
                         Screens2() //Поменяйте названия
                     } //Поменяйте названия
                     "Экраны Иннокентия" -> {
-                        platformController.setStatusBarColor(0xFFFFFFFF.toInt())
+                       //platformController.setStatusBarColor(0xFFFFFFFF.toInt())
                         Screens3() //Поменяйте названия
                     } //Поменяйте названия
                     else -> {
