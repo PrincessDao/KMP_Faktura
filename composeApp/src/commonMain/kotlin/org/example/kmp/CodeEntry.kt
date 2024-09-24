@@ -93,7 +93,6 @@ fun CodeEntryScreen(navigationController: NavigationController) {
             Text(
                 text = "Добрый день,",
                 style = TextStyle(
-                    fontFamily = sf_pro_display,
                     fontWeight = FontWeight.W400,
                     fontSize = 15.sp,
                     color = Color(0xff3D4047)
@@ -104,7 +103,6 @@ fun CodeEntryScreen(navigationController: NavigationController) {
             Text(
                 text = "Орхидея",
                 style = TextStyle(
-                    fontFamily = sf_pro_display,
                     fontWeight = FontWeight.W600,
                     fontSize = 17.sp,
                     color = Color(0xff3D4047)
@@ -208,7 +206,6 @@ fun CodeEntryScreen(navigationController: NavigationController) {
             Text(
                 text = "Забыли?",
                 style = TextStyle(
-                    fontFamily = sf_pro_display,
                     fontWeight = FontWeight.W400,
                     fontSize = 17.sp,
                     color = Color(0xff4C85FF)

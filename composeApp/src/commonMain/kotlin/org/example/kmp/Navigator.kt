@@ -5,6 +5,6 @@ interface NavigationController {
     fun popBackStack()
 }
 
-interface PlatformController {
+/*interface PlatformController {
     fun setStatusBarColor(color: Int)
-}
+}*/

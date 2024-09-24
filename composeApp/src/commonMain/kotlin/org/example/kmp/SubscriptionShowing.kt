@@ -103,7 +103,6 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                     Text(
                         text = "Подписка",
                         style = TextStyle(
-                            fontFamily = sf_pro_display,
                             fontWeight = FontWeight.W400,
                             fontSize = 14.sp,
                             color = Color(0xffFFFFFF)
@@ -152,7 +151,6 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                         ) {
                             Text(
                                 text = subscription.first, style = TextStyle(
-                                    fontFamily = sf_pro_display,
                                     fontWeight = FontWeight.W500,
                                     fontSize = 15.sp,
                                     color = Color(0xff3d4047)
@@ -161,7 +159,6 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                             Spacer(modifier = Modifier.height(3.dp))
                             Text(
                                 text = subscription.second, style = TextStyle(
-                                    fontFamily = sf_pro_display,
                                     fontWeight = FontWeight.W400,
                                     fontSize = 13.sp,
                                     color = Color(0xff9397a1)
@@ -170,7 +167,6 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                             Spacer(modifier = Modifier.height(3.dp))
                             Text(
                                 text = subscription.third, style = TextStyle(
-                                    fontFamily = sf_pro_display,
                                     fontWeight = FontWeight.W400,
                                     fontSize = 12.sp,
                                     color = Color(0xff9397a1)
@@ -184,7 +180,6 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                             .padding(start = 16.dp),
                         text = "Счет для оплаты",
                         style = TextStyle(
-                            fontFamily = sf_pro_display,
                             fontWeight = FontWeight.W700,
                             fontSize = 21.sp,
                             color = Color(0xff3D4047)
@@ -292,7 +287,6 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                             Text(
                                 text = "Отключить подписку",
                                 style = TextStyle(
-                                    fontFamily = sf_pro_display,
                                     fontWeight = FontWeight.W600,
                                     fontSize = 14.sp,
                                     color = Color(0xffffffff)

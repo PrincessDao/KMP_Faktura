@@ -117,7 +117,6 @@ fun SubscriptionListScreen(navigationController: NavigationController) {
                     Text(
                         text = "Подписки",
                         style = TextStyle(
-                            fontFamily = sf_pro_display,
                             fontWeight = FontWeight.W400,
                             fontSize = 14.sp,
                             color = Color(0xffFFFFFF)
@@ -172,21 +171,18 @@ fun SubscriptionListScreen(navigationController: NavigationController) {
                                 modifier = Modifier.weight(1f)
                             ) {
                                 Text(text = subscription.first, style = TextStyle(
-                                    fontFamily = sf_pro_display,
                                     fontWeight = FontWeight.W500,
                                     fontSize = 15.sp,
                                     color = Color(0xff3d4047)
                                 ))
                                 Spacer(modifier = Modifier.height(3.dp))
                                 Text(text = subscription.second, style = TextStyle(
-                                    fontFamily = sf_pro_display,
                                     fontWeight = FontWeight.W400,
                                     fontSize = 13.sp,
                                     color = Color(0xff9397a1)
                                 ))
                                 Spacer(modifier = Modifier.height(3.dp))
                                 Text(text = subscription.third, style = TextStyle(
-                                    fontFamily = sf_pro_display,
                                     fontWeight = FontWeight.W400,
                                     fontSize = 12.sp,
                                     color = Color(0xff9397a1)
