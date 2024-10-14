@@ -1,22 +1,56 @@
 package org.example.kmp
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun CodeSubscription(/*platformController: PlatformController*/) {
-    val navController = rememberNavController()
-    val navigationController = NavigationControllerCross(navController)
-    SubscriptionScreens(navController = navController, navigationController = navigationController/*, platformController = platformController*/)
+    var selectedOption by remember { mutableStateOf<String?>(null) }
+
+    when (selectedOption) {
+        null -> {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Button(onClick = { selectedOption = "application" }) {
+                    Text("Приложение")
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(onClick = { selectedOption = "design_system" }) {
+                    Text("Дизайн-система")
+                }
+            }
+        }
+        "application" -> {
+            val navController = rememberNavController()
+            val navigationController = NavigationControllerCross(navController)
+            SubscriptionScreens(navController = navController, navigationController = navigationController/*, platformController = platformController*/)
+        }
+        "design_system" -> {
+            DesignSystemScreen()
+        }
+    }
 }
 
 @Composable
