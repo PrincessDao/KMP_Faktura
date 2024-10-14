@@ -65,7 +65,7 @@ fun App(/*platformController: PlatformController*/) {
                     }
                     "Экраны Яны" -> {
                         //platformController.setStatusBarColor(0xFFFFFFFF.toInt())
-                        Screens2() //Поменяйте названия
+                        ProfileScreen() //Поменяйте названия
                     } //Поменяйте названия
                     "Экраны Иннокентия" -> {
                        //platformController.setStatusBarColor(0xFFFFFFFF.toInt())
