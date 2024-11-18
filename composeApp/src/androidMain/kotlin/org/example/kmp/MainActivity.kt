@@ -5,11 +5,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 class MainActivity : ComponentActivity()/*, PlatformController*/ {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.navigationBarColor = 0xFFFFFFFF.toInt()
+
+        //val systemUiController = rememberSystemUiController()
+        //systemUiController.setNavigationBarColor(Color.Black)
+
         setContent {
             App(/*this*/)
         }

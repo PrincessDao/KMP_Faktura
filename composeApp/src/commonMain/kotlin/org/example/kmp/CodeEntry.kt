@@ -49,12 +49,14 @@ import kmp_faktura.composeapp.generated.resources.logo_balance
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
+
 val customRippleColor = Color(0xff4C85FF)
 
 @Composable
 @Preview
 fun CodeEntryScreen(navigationController: NavigationController) {
     var inputCode by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

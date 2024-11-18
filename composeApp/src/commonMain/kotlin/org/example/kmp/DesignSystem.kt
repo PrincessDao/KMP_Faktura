@@ -1,9 +1,11 @@
 package org.example.kmp
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -48,9 +50,11 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.ViewConfiguration
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -67,6 +71,41 @@ import kmp_faktura.composeapp.generated.resources.arrow_down
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import org.jetbrains.compose.resources.painterResource
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalViewConfiguration
+import androidx.compose.ui.unit.Dp
+
+class CustomViewConfiguration(
+    private val original: ViewConfiguration,
+    private val customMinimumTouchTargetSize: DpSize
+) : ViewConfiguration {
+    override val longPressTimeoutMillis: Long
+        get() = original.longPressTimeoutMillis
+    override val doubleTapTimeoutMillis: Long
+        get() = original.doubleTapTimeoutMillis
+    override val doubleTapMinTimeMillis: Long
+        get() = original.doubleTapMinTimeMillis
+    override val touchSlop: Float
+        get() = original.touchSlop
+    override val minimumTouchTargetSize: DpSize
+        get() = customMinimumTouchTargetSize
+    override val maximumFlingVelocity: Float
+        get() = original.maximumFlingVelocity
+}
+
+@Composable
+fun ProvideCustomViewConfiguration(
+    minTouchTargetSize: Dp = 24.dp,
+    content: @Composable () -> Unit
+) {
+    val customConfig = CustomViewConfiguration(
+        original = LocalViewConfiguration.current,
+        customMinimumTouchTargetSize = DpSize(minTouchTargetSize, minTouchTargetSize)
+    )
+    CompositionLocalProvider(LocalViewConfiguration provides customConfig) {
+        content()
+    }
+}
 
 class NoRippleInteractionSource : MutableInteractionSource {
 
@@ -80,93 +119,100 @@ class NoRippleInteractionSource : MutableInteractionSource {
 
 @Composable
 fun DesignSystemScreen() {
-    var scale by remember { mutableStateOf(1f) }
-    var offsetX by remember { mutableStateOf(0f) }
-    var offsetY by remember { mutableStateOf(0f) }
+    ProvideCustomViewConfiguration(minTouchTargetSize = 24.dp) {
+        var scale by remember { mutableStateOf(1f) }
+        var offsetX by remember { mutableStateOf(0f) }
+        var offsetY by remember { mutableStateOf(0f) }
 
-    BoxWithConstraints(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFe5e5e5))
-            .pointerInput(Unit) {
-                detectTransformGestures { _, pan, zoom, _ ->
-                    val previousScale = scale
-
-                    scale *= zoom
-
-                    val currentCenterX = offsetX + (size.width / 2) * previousScale
-                    val currentCenterY = offsetY + (size.height / 2) * previousScale
-
-                    val touchX = (currentCenterX + pan.x / previousScale)
-                    val touchY = (currentCenterY + pan.y / previousScale)
-
-                    offsetX = touchX - (size.width / 2) * scale
-                    offsetY = touchY - (size.height / 2) * scale
-                }
-            }
-    ) {
-        Box(
+        BoxWithConstraints(
             modifier = Modifier
-                .layout { measurable, _ ->
-                    val placeable = measurable.measure(constraints.copy(maxWidth = Int.MAX_VALUE, maxHeight = Int.MAX_VALUE))
-                    layout(placeable.width, placeable.height) {
-                        placeable.placeRelative(offsetX.toInt(), offsetY.toInt())
+                .fillMaxSize()
+                .background(Color(0xFFe5e5e5))
+                .pointerInput(Unit) {
+                    detectTransformGestures { _, pan, zoom, _ ->
+                        val previousScale = scale
+
+                        scale *= zoom
+
+                        val currentCenterX = offsetX + (size.width / 2) * previousScale
+                        val currentCenterY = offsetY + (size.height / 2) * previousScale
+
+                        val touchX = (currentCenterX + pan.x / previousScale)
+                        val touchY = (currentCenterY + pan.y / previousScale)
+
+                        offsetX = touchX - (size.width / 2) * scale
+                        offsetY = touchY - (size.height / 2) * scale
                     }
                 }
-                .graphicsLayer(
-                    scaleX = scale,
-                    scaleY = scale,
-                    translationX = offsetX,
-                    translationY = offsetY
-                )
         ) {
-            Row {
-                DotBannerSection(scale)
-                Spacer(modifier = Modifier.width(70.dp))
-                ActionSection(scale)
-                Spacer(modifier = Modifier.width(180.dp))
-                Box(modifier = Modifier.dashedBorderBox("Social Icons Section")) {
-                    SocialIconsSection()
+            Box(
+                modifier = Modifier
+                    .layout { measurable, _ ->
+                        val placeable = measurable.measure(
+                            constraints.copy(
+                                maxWidth = Int.MAX_VALUE,
+                                maxHeight = Int.MAX_VALUE
+                            )
+                        )
+                        layout(placeable.width, placeable.height) {
+                            placeable.placeRelative(offsetX.toInt(), offsetY.toInt())
+                        }
+                    }
+                    .graphicsLayer(
+                        scaleX = scale,
+                        scaleY = scale,
+                        translationX = offsetX,
+                        translationY = offsetY
+                    )
+            ) {
+                Row {
+                    DotBannerSection(scale)
+                    Spacer(modifier = Modifier.width(70.dp))
+                    ActionSection(scale)
+                    Spacer(modifier = Modifier.width(180.dp))
+                    Box(modifier = Modifier.dashedBorderBox("Social Icons Section")) {
+                        SocialIconsSection()
+                    }
                 }
             }
-        }
 
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp)
-        ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(16.dp)
             ) {
-                Box(
-                    modifier = Modifier
-                        .size(48.dp)
-                        .background(Color(0xFF2C2C2C), shape = RoundedCornerShape(10.dp))
-                        .clip(RectangleShape)
-                        .clickable(
-                            onClick = { scale *= 1.1f },
-                            indication = null,
-                            interactionSource = remember { MutableInteractionSource() }
-                        ),
-                    contentAlignment = Alignment.Center
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "+")
-                }
-                Box(
-                    modifier = Modifier
-                        .size(48.dp)
-                        .background(Color(0xFF2C2C2C), shape = RoundedCornerShape(10.dp))
-                        .clip(RectangleShape)
-                        .clickable(
-                            onClick = { scale /= 1.1f },
-                            indication = null,
-                            interactionSource = remember { MutableInteractionSource() }
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = "-")
+                    Box(
+                        modifier = Modifier
+                            .size(48.dp)
+                            .background(Color(0xFF2C2C2C), shape = RoundedCornerShape(10.dp))
+                            .clip(RectangleShape)
+                            .clickable(
+                                onClick = { scale *= 1.1f },
+                                indication = null,
+                                interactionSource = remember { MutableInteractionSource() }
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "+")
+                    }
+                    Box(
+                        modifier = Modifier
+                            .size(48.dp)
+                            .background(Color(0xFF2C2C2C), shape = RoundedCornerShape(10.dp))
+                            .clip(RectangleShape)
+                            .clickable(
+                                onClick = { scale /= 1.1f },
+                                indication = null,
+                                interactionSource = remember { MutableInteractionSource() }
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(text = "-")
+                    }
                 }
             }
         }
@@ -224,6 +270,7 @@ fun DotBanner(totalDots: Int, currentIndex: Int) {
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DotPersonalOffer(totalDots: Int) {
     var currentIndex by remember { mutableStateOf(0) }
@@ -245,8 +292,7 @@ fun DotPersonalOffer(totalDots: Int) {
                 Box(
                     modifier = Modifier
                         .size(24.dp)
-                        .background(Color.Blue, shape = RectangleShape)
-                        .clip(RectangleShape)
+                        .background(Color.Transparent, shape = RectangleShape)
                         .clickable(
                             onClick = { if (currentIndex > 0) currentIndex-- },
                             indication = null,
@@ -257,7 +303,7 @@ fun DotPersonalOffer(totalDots: Int) {
                     Icon(
                         painter = painterResource(Res.drawable.arrow_left_dot),
                         contentDescription = "Arrow Left",
-                        tint = Color.Red,
+                        tint = if (currentIndex > 0) Color(0xFF4C85FF) else Color(0xFFEDF0F9),
                     )
                 }
                 Spacer(modifier = Modifier.width(63.5.dp))
@@ -273,18 +319,21 @@ fun DotPersonalOffer(totalDots: Int) {
                     if (index != totalDots - 1) Spacer(modifier = Modifier.width(10.dp))
                 }
                 Spacer(modifier = Modifier.width(63.5.dp))
-                Button(
-                    onClick = { if (currentIndex < totalDots - 1) currentIndex++ },
+                Box(
                     modifier = Modifier
                         .size(24.dp)
-                        .background(Color.Transparent, shape = RectangleShape),
-                    contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+                        .background(Color.Transparent, shape = RectangleShape)
+                        .clickable(
+                            onClick = { if (currentIndex < totalDots - 1) currentIndex++ },
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() }
+                        ),
+                    contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         painter = painterResource(Res.drawable.arrow_right_dot),
                         contentDescription = "Arrow Right",
-                        tint = Color.Red,
+                        tint = if (currentIndex < totalDots - 1) Color(0xFF4C85FF) else Color(0xFFEDF0F9),
                     )
                 }
             }
@@ -313,7 +362,7 @@ fun ActionSection(scale: Float) {
                 .zIndex(1f),
             scale = scale
         )
-        ActionDown()
+        ActionUp()
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -324,7 +373,7 @@ fun ActionSection(scale: Float) {
                 .zIndex(1f),
             scale = scale
         )
-        ActionDown()
+        ActionRollUp()
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -335,7 +384,7 @@ fun ActionSection(scale: Float) {
                 .zIndex(1f),
             scale = scale
         )
-        DotPersonalOffer(totalDots = 4)
+        ActionSlider(totalDots = 4)
     }
 }
 
@@ -368,6 +417,116 @@ fun ActionDown() {
                 ),
             )
         }
+    }
+}
+
+@Composable
+fun ActionUp() {
+    Box(
+        modifier = Modifier
+            .size(375.dp, 76.dp)
+            .background(Color.White)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                painter = painterResource(Res.drawable.arrow_down_big),
+                contentDescription = "Arrow Down",
+                modifier = Modifier.size(24.dp),
+                tint = Color(0xff3D4047)
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = "Action",
+                style = TextStyle(
+                    fontWeight = FontWeight.W400,
+                    fontSize = 17.sp,
+                    lineHeight = 22.sp,
+                    color = Color(0xff3D4047)
+                ),
+            )
+        }
+    }
+}
+
+@Composable
+fun ActionRollUp() {
+    Box(
+        modifier = Modifier
+            .size(375.dp, 52.dp)
+            .background(Color.White)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(114.dp, 32.dp)
+                    .background(Color(0xffF6F9FF), shape = RoundedCornerShape(34.dp))
+                    .clickable(
+                        onClick = {},
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() }
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Свернуть",
+                        style = TextStyle(
+                            fontWeight = FontWeight.W400,
+                            fontSize = 15.sp,
+                            lineHeight = 20.sp,
+                            color = Color(0xff3D4047)
+                        ),
+                    )
+                    Icon(
+                        painter = painterResource(Res.drawable.arrow_up),
+                        contentDescription = "Arrow Up",
+                        tint = Color(0xffB0B8BF),
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.width(20.dp))
+        }
+    }
+}
+
+@Composable
+fun ActionSlider(totalDots: Int) {
+    var currentIndex by remember { mutableStateOf(0) }
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .size(375.dp, 44.dp)
+            .background(Color.White)
+    ) {
+            Row(
+                modifier = Modifier.fillMaxSize(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                repeat(totalDots) { index ->
+                    Box(
+                        modifier = Modifier
+                            .size(16.dp)
+                            .background(
+                                if (index == currentIndex) Color(0xFF4C85FF) else Color(0xFFEDF0F9),
+                                shape = RoundedCornerShape(50)
+                            )
+                    )
+                    if (index != totalDots - 1) Spacer(modifier = Modifier.width(10.dp))
+                }
+            }
     }
 }
 

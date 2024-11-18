@@ -16,7 +16,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -27,32 +27,36 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
-        
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.navigation.compose)
-        }
-        commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(compose.material3)
-            implementation(libs.navigation.compose)
-            implementation(libs.androidx.activity.compose)
-        }
-        iosMain.dependencies {
+        androidMain {
             dependencies {
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.androidx.ui.v143)
+                implementation(libs.androidx.lifecycle.runtime.ktx)
+                implementation(compose.preview)
+                implementation(libs.androidx.activity.compose)
+                implementation(compose.components.uiToolingPreview)
+                implementation(libs.androidx.navigation.compose)
+                implementation(libs.androidx.lifecycle.viewmodel)
+                implementation(libs.androidx.lifecycle.runtime.compose)
+            }
+        }
+        commonMain {
+            dependencies {
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
+                implementation(compose.material3)
+                implementation(libs.navigation.compose)
+            }
+        }
+        iosMain {
+            dependencies {
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.ui)
             }
         }
     }
@@ -61,6 +65,9 @@ kotlin {
 android {
     namespace = "org.example.kmp"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
+    defaultConfig {
+        targetSdk = libs.versions.android.targetSdk.get().toInt()
+    }
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
@@ -94,13 +101,12 @@ android {
         debugImplementation(compose.uiTooling)
     }
 }
+
 dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.ui)
     implementation(libs.material)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.ui.android)
-    implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.core)
 }
-
