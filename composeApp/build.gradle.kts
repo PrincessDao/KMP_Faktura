@@ -64,7 +64,7 @@ kotlin {
 
 android {
     namespace = "org.example.kmp"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = 35
     defaultConfig {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
     }
