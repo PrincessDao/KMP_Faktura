@@ -8,13 +8,17 @@ pluginManagement {
         gradlePluginPortal()
     }
 
-    val osName = extra["osName"] as String
-
-    val agpVersion = if (osName.contains("Mac", ignoreCase = true)) {
-        "8.7.3"
-    } else {
-        "8.6.0"
+    val osName = System.getProperty("os.name")
+    val agpVersion = when {
+        osName.contains("Mac", ignoreCase = true) -> "8.7.3"
+        osName.contains("Windows", ignoreCase = true) -> "8.6.0"
+        else -> "8.6.0"
     }
+
+    println("Operating System: $osName")
+    println("AGP Version: $agpVersion")
+
+    extra["agpVersion"] = agpVersion
 
     plugins {
         id("com.android.application") version agpVersion
