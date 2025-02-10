@@ -1,6 +1,8 @@
 package org.example.kmp
 
 import androidx.compose.ui.window.ComposeUIViewController
+import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.useContents
 import platform.UIKit.UIScreen
 import platform.UIKit.UIApplication
 import platform.UIKit.UIStatusBarManager
@@ -21,9 +23,10 @@ class IOSPlatformController(private val window: UIWindow?) : PlatformController 
     }
 }
 
+@OptIn(ExperimentalForeignApi::class)
 class IOSScreenSizeProvider : ScreenSizeProvider {
     override fun getScreenWidth(): Float {
-        return UIScreen.mainScreen.bounds.size.width.toFloat()
+        return UIScreen.mainScreen.bounds.useContents { size.width.toFloat() }
     }
 }
 
