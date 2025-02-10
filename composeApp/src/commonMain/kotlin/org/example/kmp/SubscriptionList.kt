@@ -20,6 +20,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,6 +64,7 @@ val subscriptions = listOf(
 @Composable
 @Preview
 fun SubscriptionListScreen(navigationController: NavigationController) {
+    var isClicked by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -69,7 +74,13 @@ fun SubscriptionListScreen(navigationController: NavigationController) {
                 .fillMaxWidth()
                 .padding(start = 8.dp),
         ) {
-            IconButton(onClick = { navigationController.popBackStack() }) {
+            IconButton(onClick = {
+                if (!isClicked) {
+                    isClicked = true
+                    navigationController.popBackStack()
+                }
+            },
+                ) {
                 Image(
                     painter = painterResource(Res.drawable.arrow_left),
                     contentDescription = "Назад",
@@ -111,7 +122,8 @@ fun SubscriptionListScreen(navigationController: NavigationController) {
                         style = TextStyle(
                             fontWeight = FontWeight.W500,
                             fontSize = 21.sp,
-                            color = Color(0xffFFFFFF)
+                            color = Color(0xffFFFFFF),
+                            fontFamily = SfProDisplayFontFamily()
                         ),
                     )
                     Text(
@@ -119,7 +131,8 @@ fun SubscriptionListScreen(navigationController: NavigationController) {
                         style = TextStyle(
                             fontWeight = FontWeight.W400,
                             fontSize = 14.sp,
-                            color = Color(0xffFFFFFF)
+                            color = Color(0xffFFFFFF),
+                            fontFamily = SfProDisplayFontFamily()
                         ),
                     )
                 }
@@ -173,19 +186,22 @@ fun SubscriptionListScreen(navigationController: NavigationController) {
                                 Text(text = subscription.first, style = TextStyle(
                                     fontWeight = FontWeight.W500,
                                     fontSize = 15.sp,
-                                    color = Color(0xff3d4047)
+                                    color = Color(0xff3d4047),
+                                    fontFamily = SfProDisplayFontFamily()
                                 ))
                                 Spacer(modifier = Modifier.height(3.dp))
                                 Text(text = subscription.second, style = TextStyle(
                                     fontWeight = FontWeight.W400,
                                     fontSize = 13.sp,
-                                    color = Color(0xff9397a1)
+                                    color = Color(0xff9397a1),
+                                    fontFamily = SfProDisplayFontFamily()
                                 ))
                                 Spacer(modifier = Modifier.height(3.dp))
                                 Text(text = subscription.third, style = TextStyle(
                                     fontWeight = FontWeight.W400,
                                     fontSize = 12.sp,
-                                    color = Color(0xff9397a1)
+                                    color = Color(0xff9397a1),
+                                    fontFamily = SfProDisplayFontFamily()
                                 ))
                             }
                             Image(

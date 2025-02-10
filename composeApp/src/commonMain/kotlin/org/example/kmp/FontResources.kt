@@ -32,25 +32,17 @@ fun SfProDisplayFontFamily() = FontFamily(
 )
 
 @Composable
-fun SfProDisplayTypography() = Typography().run {
-
-    val fontFamily = SfProDisplayFontFamily()
-    copy(
-        displayLarge = displayLarge.copy(fontFamily = fontFamily),
-        displayMedium = displayMedium.copy(fontFamily = fontFamily),
-        displaySmall = displaySmall.copy(fontFamily = fontFamily),
-        headlineLarge = headlineLarge.copy(fontFamily = fontFamily),
-        headlineMedium = headlineMedium.copy(fontFamily = fontFamily),
-        headlineSmall = headlineSmall.copy(fontFamily = fontFamily),
-        titleLarge = titleLarge.copy(fontFamily = fontFamily),
-        titleMedium = titleMedium.copy(fontFamily = fontFamily),
-        titleSmall = titleSmall.copy(fontFamily = fontFamily),
-        bodyLarge = bodyLarge.copy(fontFamily =  fontFamily),
-        bodyMedium = bodyMedium.copy(fontFamily = fontFamily),
-        bodySmall = bodySmall.copy(fontFamily = fontFamily),
-        labelLarge = labelLarge.copy(fontFamily = fontFamily),
-        labelMedium = labelMedium.copy(fontFamily = fontFamily),
-        labelSmall = labelSmall.copy(fontFamily = fontFamily),
-
-    )
-}
+fun SfProTextFontFamily() = FontFamily(
+    Font(Res.font.sf_pro_text_light, weight = FontWeight.Light, style = FontStyle.Normal),
+    Font(Res.font.sf_pro_text_light_italic, weight = FontWeight.Light, style = FontStyle.Italic),
+    Font(Res.font.sf_pro_text_regular, weight = FontWeight.Normal, style = FontStyle.Normal),
+    Font(Res.font.sf_pro_text_regular_italic, weight = FontWeight.Normal, style = FontStyle.Italic),
+    Font(Res.font.sf_pro_text_medium, weight = FontWeight.Medium, style = FontStyle.Normal),
+    Font(Res.font.sf_pro_text_medium_italic, weight = FontWeight.Medium, style = FontStyle.Italic),
+    Font(Res.font.sf_pro_text_semi_bold, weight = FontWeight.SemiBold, style = FontStyle.Normal),
+    Font(Res.font.sf_pro_text_semi_bold_italic, weight = FontWeight.SemiBold, style = FontStyle.Italic),
+    Font(Res.font.sf_pro_text_bold, weight = FontWeight.Bold, style = FontStyle.Normal),
+    Font(Res.font.sf_pro_text_bold_italic, weight = FontWeight.Bold, style = FontStyle.Italic),
+    Font(Res.font.sf_pro_text_heavy, weight = FontWeight.ExtraBold, style = FontStyle.Normal),
+    Font(Res.font.sf_pro_text_heavy_italic, weight = FontWeight.ExtraBold, style = FontStyle.Italic),
+)

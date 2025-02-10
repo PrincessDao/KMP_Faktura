@@ -23,7 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CodeSubscription(/*platformController: PlatformController*/) {
+fun CodeSubscriptionAndDesignSystem(platformController: PlatformController) {
     var selectedOption by remember { mutableStateOf<String?>(null) }
 
     when (selectedOption) {
@@ -34,18 +34,18 @@ fun CodeSubscription(/*platformController: PlatformController*/) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Button(onClick = { selectedOption = "application" }) {
-                    Text("Приложение")
+                    Text("Приложение", fontFamily = SfProTextFontFamily())
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { selectedOption = "design_system" }) {
-                    Text("Дизайн-система")
+                    Text("Дизайн-система", fontFamily = SfProTextFontFamily())
                 }
             }
         }
         "application" -> {
             val navController = rememberNavController()
             val navigationController = NavigationControllerCross(navController)
-            SubscriptionScreens(navController = navController, navigationController = navigationController/*, platformController = platformController*/)
+            SubscriptionScreens(navController = navController, navigationController = navigationController, platformController = platformController)
         }
         "design_system" -> {
             DesignSystemScreen()
@@ -58,22 +58,22 @@ fun NavigationGraph(
     navController: NavHostController,
     setSurfaceColor: (Color) -> Unit,
     navigationController: NavigationController,
-    //platformController: PlatformController
+    platformController: PlatformController
 ) {
     NavHost(navController = navController, startDestination = "code_entry") {
         composable("code_entry") {
             setSurfaceColor(Color(0xffFFFFFFFF))
-            //platformController.setStatusBarColor(0xffFFFFFFFF.toInt())
+            platformController.setStatusBarColor(0xffFFFFFFFF.toInt())
             CodeEntryScreen(navigationController)
         }
         composable("subscription_list") {
             setSurfaceColor(Color(0xffFF17093d))
-            //platformController.setStatusBarColor(0xffFF17093d.toInt())
+            platformController.setStatusBarColor(0xffFF17093d.toInt())
             SubscriptionListScreen(navigationController)
         }
         composable("subscription_showing/{first}/{second}/{third}") { backStackEntry ->
             setSurfaceColor(Color(0xffFF17093d))
-            //platformController.setStatusBarColor(0xffFF17093d.toInt())
+            platformController.setStatusBarColor(0xffFF17093d.toInt())
             val first = backStackEntry.arguments?.getString("first") ?: ""
             val second = backStackEntry.arguments?.getString("second") ?: ""
             val third = backStackEntry.arguments?.getString("third") ?: ""
@@ -85,7 +85,7 @@ fun NavigationGraph(
     }
 }
 @Composable
-fun SubscriptionScreens(navController: NavHostController, navigationController: NavigationController/*, platformController: PlatformController*/) {
+fun SubscriptionScreens(navController: NavHostController, navigationController: NavigationController, platformController: PlatformController) {
     val (surfaceColor, setSurfaceColor) = remember { mutableStateOf(Color(0xffFF17093d)) }
 
     Surface(
@@ -96,7 +96,7 @@ fun SubscriptionScreens(navController: NavHostController, navigationController: 
             navController = navController,
             setSurfaceColor = setSurfaceColor,
             navigationController = navigationController,
-            //platformController = platformController
+            platformController = platformController
         )
     }
 }

@@ -5,6 +5,10 @@ interface NavigationController {
     fun popBackStack()
 }
 
-/*interface PlatformController {
+interface PlatformController {
     fun setStatusBarColor(color: Int)
-}*/
+}
+
+interface ScreenSizeProvider {
+    fun getScreenWidth(): Float
+}

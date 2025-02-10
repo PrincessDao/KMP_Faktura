@@ -97,7 +97,8 @@ fun CodeEntryScreen(navigationController: NavigationController) {
                 style = TextStyle(
                     fontWeight = FontWeight.W400,
                     fontSize = 15.sp,
-                    color = Color(0xff3D4047)
+                    color = Color(0xff3D4047),
+                    fontFamily = SfProDisplayFontFamily()
                 ),
                 modifier = Modifier
                     .padding(top = 10.dp),
@@ -107,7 +108,8 @@ fun CodeEntryScreen(navigationController: NavigationController) {
                 style = TextStyle(
                     fontWeight = FontWeight.W600,
                     fontSize = 17.sp,
-                    color = Color(0xff3D4047)
+                    color = Color(0xff3D4047),
+                    fontFamily = SfProDisplayFontFamily()
                 ),
             )
             Row(
@@ -210,7 +212,8 @@ fun CodeEntryScreen(navigationController: NavigationController) {
                 style = TextStyle(
                     fontWeight = FontWeight.W400,
                     fontSize = 17.sp,
-                    color = Color(0xff4C85FF)
+                    color = Color(0xff4C85FF),
+                    fontFamily = SfProDisplayFontFamily()
                 ),
                 modifier = Modifier.clickable {}
             )

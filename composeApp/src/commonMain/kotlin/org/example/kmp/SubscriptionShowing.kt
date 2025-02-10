@@ -46,6 +46,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Preview
 fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navigationController: NavigationController) {
     var expanded by remember { mutableStateOf(false) }
+    var isClicked by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -55,7 +56,13 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                 .fillMaxWidth()
                 .padding(start = 8.dp),
         ) {
-            IconButton(onClick = { navigationController.popBackStack() }) {
+            IconButton(onClick = {
+                if (!isClicked) {
+                    isClicked = true
+                    navigationController.popBackStack()
+                }
+            },
+                ) {
                 Image(
                     painter = painterResource(Res.drawable.arrow_left),
                     contentDescription = "Назад",
@@ -97,7 +104,8 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                         style = TextStyle(
                             fontWeight = FontWeight.W500,
                             fontSize = 21.sp,
-                            color = Color(0xffFFFFFF)
+                            color = Color(0xffFFFFFF),
+                            fontFamily = SfProDisplayFontFamily()
                         ),
                     )
                     Text(
@@ -105,7 +113,8 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                         style = TextStyle(
                             fontWeight = FontWeight.W400,
                             fontSize = 14.sp,
-                            color = Color(0xffFFFFFF)
+                            color = Color(0xffFFFFFF),
+                            fontFamily = SfProDisplayFontFamily()
                         ),
                     )
                 }
@@ -153,7 +162,8 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                                 text = subscription.first, style = TextStyle(
                                     fontWeight = FontWeight.W500,
                                     fontSize = 15.sp,
-                                    color = Color(0xff3d4047)
+                                    color = Color(0xff3d4047),
+                                    fontFamily = SfProDisplayFontFamily()
                                 )
                             )
                             Spacer(modifier = Modifier.height(3.dp))
@@ -161,7 +171,8 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                                 text = subscription.second, style = TextStyle(
                                     fontWeight = FontWeight.W400,
                                     fontSize = 13.sp,
-                                    color = Color(0xff9397a1)
+                                    color = Color(0xff9397a1),
+                                    fontFamily = SfProDisplayFontFamily()
                                 )
                             )
                             Spacer(modifier = Modifier.height(3.dp))
@@ -169,7 +180,8 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                                 text = subscription.third, style = TextStyle(
                                     fontWeight = FontWeight.W400,
                                     fontSize = 12.sp,
-                                    color = Color(0xff9397a1)
+                                    color = Color(0xff9397a1),
+                                    fontFamily = SfProDisplayFontFamily()
                                 )
                             )
                         }
@@ -182,7 +194,8 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                         style = TextStyle(
                             fontWeight = FontWeight.W700,
                             fontSize = 21.sp,
-                            color = Color(0xff3D4047)
+                            color = Color(0xff3D4047),
+                            fontFamily = SfProDisplayFontFamily()
                         ),
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -223,7 +236,8 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                                         fontSize = 11.sp,
                                         fontWeight = FontWeight.W500,
                                         color = Color(0xff6d6e70),
-                                        modifier = Modifier.align(Alignment.CenterVertically)
+                                        modifier = Modifier.align(Alignment.CenterVertically),
+                                        fontFamily = SfProDisplayFontFamily()
                                     )
                                     Spacer(modifier = Modifier.height(5.dp))
                                 }
@@ -235,9 +249,9 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                                 verticalArrangement = Arrangement.SpaceBetween,
                                 modifier = Modifier.weight(0.85f)
                             ) {
-                                Text(text = "MasterCard Gold", fontWeight = FontWeight.W500, fontSize = 13.sp, color = Color(0xff6d6e70))
-                                Text(text = "40817810300000000004", fontSize = 13.sp, fontWeight = FontWeight.W500, color = Color(0xff9397a1))
-                                Text(text = "Доступно 1 234,56 ₽", fontSize = 13.sp, fontWeight = FontWeight.W500, color = Color(0xff9397a1))
+                                Text(text = "MasterCard Gold", fontWeight = FontWeight.W500, fontSize = 13.sp, color = Color(0xff6d6e70), fontFamily = SfProDisplayFontFamily())
+                                Text(text = "40817810300000000004", fontSize = 13.sp, fontWeight = FontWeight.W500, color = Color(0xff9397a1), fontFamily = SfProDisplayFontFamily())
+                                Text(text = "Доступно 1 234,56 ₽", fontSize = 13.sp, fontWeight = FontWeight.W500, color = Color(0xff9397a1), fontFamily = SfProDisplayFontFamily())
                             }
 
                             IconButton(onClick = { expanded = !expanded }) {
@@ -289,7 +303,8 @@ fun SubscriptionShowingScreen(subscription: Triple<String, String, String>, navi
                                 style = TextStyle(
                                     fontWeight = FontWeight.W600,
                                     fontSize = 14.sp,
-                                    color = Color(0xffffffff)
+                                    color = Color(0xffffffff),
+                                    fontFamily = SfProDisplayFontFamily()
                                 ),
                             )
                             Spacer(modifier = Modifier.height(12.dp))

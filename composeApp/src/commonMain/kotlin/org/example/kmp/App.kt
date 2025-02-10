@@ -13,39 +13,39 @@ import kmp_faktura.composeapp.generated.resources.Res
 import kmp_faktura.composeapp.generated.resources.code_one
 import kmp_faktura.composeapp.generated.resources.code_two
 import kmp_faktura.composeapp.generated.resources.code_three
-import kmp_faktura.composeapp.generated.resources.code_four
 import org.jetbrains.compose.resources.DrawableResource
+import androidx.compose.material3.MaterialTheme
 
 @Composable
 @Preview
-fun App(/*platformController: PlatformController*/) {
+fun App(platformController: PlatformController) {
+    var isDesignSystem by remember { mutableStateOf(false) }
     MaterialTheme {
         var currentScreen by remember { mutableStateOf("main") }
 
-        //platformController.setStatusBarColor(0xFFFFFFFF.toInt())
+        platformController.setStatusBarColor(0xFF2C2C2C.toInt())
 
         Scaffold(
             bottomBar = {
                 BottomNavigation(
-                    backgroundColor = Color.White,
+                    backgroundColor = Color(0xFF2C2C2C),
                     contentColor = Color.Black
                 ) {
                     val items = listOf(
                         BottomNavItem("Виталий", Res.drawable.code_one),
                         BottomNavItem("Яна", Res.drawable.code_two),
-                        BottomNavItem("Иннокентий", Res.drawable.code_three),
-                        BottomNavItem("Никита", Res.drawable.code_four)
+                        BottomNavItem("Иннокентий", Res.drawable.code_three)
                     )
 
                     items.forEachIndexed { index, item ->
                         BottomNavigationItem(
                             icon = { Icon(painterResource(item.iconRes), contentDescription = null) },
-                            label = { Text(item.label) },
+                            label = { Text(item.label, modifier = Modifier.padding(bottom = 12.dp), fontFamily = SfProTextFontFamily()) },
                             selected = currentScreen == getScreenForIndex(index),
                             onClick = {
                                 currentScreen = getScreenForIndex(index)
                             },
-                            selectedContentColor = Color.Blue,
+                            selectedContentColor = Color.White,
                             unselectedContentColor = Color.Gray
                         )
                     }
@@ -59,21 +59,17 @@ fun App(/*platformController: PlatformController*/) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 when (currentScreen) {
-                    "codeSubscription" -> {
-                        //platformController.setStatusBarColor(0xFFFFFFFF.toInt())
-                        CodeSubscription(/*platformController*/)
+                    "DesignSystemAndCodeSubscription" -> {
+                        platformController.setStatusBarColor(0xFF2C2C2C.toInt())
+                        CodeSubscriptionAndDesignSystem(platformController)
                     }
-                    "Экраны Яны" -> {
-                        //platformController.setStatusBarColor(0xFFFFFFFF.toInt())
+                    "Экраны Яны" -> { //Поменяйте названия (как в getScreenForIndex)
+                        platformController.setStatusBarColor(0xFF2C2C2C.toInt())
                         ProfileScreen() //Поменяйте названия
                     } //Поменяйте названия
-                    "Экраны Иннокентия" -> {
-                       //platformController.setStatusBarColor(0xFFFFFFFF.toInt())
+                    "Экраны Иннокентия" -> { //Поменяйте названия (как в getScreenForIndex)
+                       platformController.setStatusBarColor(0xFF2C2C2C.toInt())
                         Screens3() //Поменяйте названия
-                    } //Поменяйте названия
-                    "Экраны Никиты" -> {
-                        //platformController.setStatusBarColor(0xFFFFFFFF.toInt())
-                        Screens4() //Поменяйте названия
                     } //Поменяйте названия
                     else -> {
                         Text("Главный экран", Modifier.padding(16.dp))
@@ -86,10 +82,9 @@ fun App(/*platformController: PlatformController*/) {
 
 fun getScreenForIndex(index: Int): String {
     return when (index) {
-        0 -> "codeSubscription"
+        0 -> "DesignSystemAndCodeSubscription"
         1 -> "Экраны Яны" //Поменяйте названия
         2 -> "Экраны Иннокентия" //Поменяйте названия
-        3 -> "Экраны Никиты" //Поменяйте названия
         else -> "main"
     }
 }

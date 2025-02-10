@@ -1,4 +1,5 @@
 [versions]
+accompanistSystemuicontroller = "0.31.1-alpha"
 accompanistSystemuicontrollerVersion = "0.20.0"
 android-compileSdk = "35"
 android-minSdk = "24"
@@ -17,8 +18,10 @@ uiToolingPreview = "1.7.5"
 uiAndroid = "1.7.5"
 activityKtx = "1.9.3"
 core = "1.15.0"
+annotationJvmVersion = "1.9.1"
 
 [libraries]
+accompanist-systemuicontroller-v0311alpha = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-ui = { module = "androidx.compose.ui:ui", version.ref = "uiToolingPreview" }
@@ -32,6 +35,7 @@ material = { module = "androidx.compose.material:material", version.ref = "mater
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
 androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
+androidx-annotation-jvm = { group = "androidx.annotation", name = "annotation-jvm", version.ref = "annotationJvmVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application"}

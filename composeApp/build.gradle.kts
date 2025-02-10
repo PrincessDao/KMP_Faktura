@@ -38,6 +38,7 @@ kotlin {
                 implementation(libs.androidx.navigation.compose)
                 implementation(libs.androidx.lifecycle.viewmodel)
                 implementation(libs.androidx.lifecycle.runtime.compose)
+                implementation(libs.accompanist.systemuicontroller.v0311alpha)
             }
         }
         commonMain {
@@ -71,7 +72,7 @@ android {
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+    sourceSets["main"].resources.srcDirs("src/commonMain/resource")
 
     defaultConfig {
         applicationId = "org.example.kmp"
@@ -109,4 +110,5 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.ui.android)
     implementation(libs.androidx.core)
+    implementation(libs.androidx.annotation.jvm)
 }
