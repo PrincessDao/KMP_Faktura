@@ -31,6 +31,8 @@ import kmp_faktura.composeapp.generated.resources.vk
 import kmp_faktura.composeapp.generated.resources.whatsapp
 import kmp_faktura.composeapp.generated.resources.withdraw
 import org.jetbrains.compose.resources.painterResource
+import com.example.functions.*
+
 
 @Composable
 fun DotBannerSection(scale: Float) {

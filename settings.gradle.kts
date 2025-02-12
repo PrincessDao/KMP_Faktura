@@ -22,7 +22,6 @@ pluginManagement {
 
     plugins {
         id("com.android.application") version agpVersion
-        id("com.android.library") version agpVersion
     }
 }
 
@@ -34,3 +33,4 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":kmp")

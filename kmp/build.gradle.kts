@@ -1,5 +1,6 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.DeprecatedTargetPresetApi
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.InternalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -7,34 +8,38 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
+plugins {
+    alias(libs.plugins.kotlinMultiplatform)
+    id("com.android.library")
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
+    id("maven-publish")
+}
+
 val secretsFile: Path = Paths.get(rootProject.rootDir.absolutePath, "secrets.json")
 val secretsJson = String(Files.readAllBytes(secretsFile))
 val jsonObject: JsonObject = JsonParser.parseString(secretsJson).asJsonObject
 val githubToken: String = jsonObject.get("githubToken").asString
 
-plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.compose.compiler)
-}
-
 kotlin {
-    androidTarget {
+    @OptIn(DeprecatedTargetPresetApi::class, InternalKotlinGradlePluginApi::class)
+    targets {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+        androidTarget {
+            compilerOptions {
+                jvmTarget.set(JvmTarget.JVM_11)
+            }
         }
-    }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
+        listOf(
+            iosX64(),
+            iosArm64(),
+            iosSimulatorArm64()
+        ).forEach { iosTarget ->
+            iosTarget.binaries.framework {
+                baseName = "ComposeApp"
+                isStatic = true
+            }
         }
     }
 
@@ -61,7 +66,6 @@ kotlin {
                 implementation(compose.components.uiToolingPreview)
                 implementation(compose.material3)
                 implementation(libs.navigation.compose)
-                //implementation("com.example:kmp:1.0.0")
             }
         }
         iosMain {
@@ -73,64 +77,54 @@ kotlin {
         }
     }
 }
-
 android {
-    namespace = "org.example.kmp"
+    namespace = "com.example.functions"
     compileSdk = 35
     defaultConfig {
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
+        lint.targetSdk = libs.versions.android.targetSdk.get().toInt()
     }
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/resource")
-
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
     defaultConfig {
-        applicationId = "org.example.kmp"
+        multiDexEnabled = true
         minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        lint.targetSdk = libs.versions.android.targetSdk.get().toInt()
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    buildFeatures {
-        compose = true
-    }
-    dependencies {
-        debugImplementation(compose.uiTooling)
-    }
 }
-
 dependencies {
-    implementation(libs.androidx.material3.android)
-    implementation(libs.androidx.ui)
-    implementation(libs.material)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.ui.android)
-    implementation(libs.androidx.core)
-    implementation(libs.androidx.annotation.jvm)
+    implementation(libs.androidx.multidex)
     implementation(libs.gson)
 }
 
-repositories {
-    maven {
-        url = uri("https://maven.pkg.github.com/PrincessDao/KMP_Faktura")
-        credentials {
-            username = project.findProperty("GITHUB_USERNAME") as String? ?: System.getenv("GITHUB_USERNAME")
-            password = githubToken
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/PrincessDao/KMP_Faktura")
+            credentials {
+                username = project.findProperty("GITHUB_USERNAME") as String? ?: System.getenv("GITHUB_USERNAME")
+                password = githubToken
+            }
         }
     }
+
+        publications {
+            create<MavenPublication>("kmp") {
+                from(components["kotlin"])
+                groupId = "com.example"
+                artifactId = "kmp"
+                version = "1.0.0"
+            }
+        }
 }
