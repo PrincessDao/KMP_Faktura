@@ -176,7 +176,10 @@ fun DesignSystemScreen() {
                             PaddingSection(scale)
                         }
                         4 -> {
-
+                            SlidesSection(scale)
+                            SelectorsButtonsSection(scale)
+                            Spacer(modifier = Modifier.width(87.dp))
+                            ActionsSelectorSection(scale)
                         }
                     }
                 }
@@ -271,25 +274,25 @@ fun DesignSystemScreen() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Spacer(modifier = Modifier.width(16.dp))
-                    RadioButton(
+                    SystemRadioButton(
                         label = "Actions",
                         isSelected = pages == 1,
                         onClick = { pages = 1 }
                     )
                     Spacer(modifier = Modifier.width(16.dp))
-                    RadioButton(
+                    SystemRadioButton(
                         label = "Input",
                         isSelected = pages == 2,
                         onClick = { pages = 2 }
                     )
                     Spacer(modifier = Modifier.width(16.dp))
-                    RadioButton(
+                    SystemRadioButton(
                         label = "Padding",
                         isSelected = pages == 3,
                         onClick = { pages = 3 }
                     )
                     Spacer(modifier = Modifier.width(16.dp))
-                    RadioButton(
+                    SystemRadioButton(
                         label = "Selectors",
                         isSelected = pages == 4,
                         onClick = { pages = 4 }
@@ -302,7 +305,7 @@ fun DesignSystemScreen() {
 }
 
 @Composable
-fun RadioButton(label: String, isSelected: Boolean, onClick: () -> Unit) {
+fun SystemRadioButton(label: String, isSelected: Boolean, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .background(

@@ -33,6 +33,15 @@ object PaddingKmp {
     const val PADDING_VISIBILITY = 0.2f
 }
 
+object SelectorsKmp {
+    const val OCCUPANCY = 0.5f
+    val fillerColor = Color(0xFF4C85FF)
+    val blankColor = Color(0xFFd8dcdf)
+    val onOccupancyChange = { _: Float -> }
+    val enabledColor = Color(0xFF4C85FF)
+    const val ENABLED = true
+}
+
 /**
  * Default value for functions [DotBanner], [DotPersonalOffer], [ActionSlider]
  */
@@ -121,4 +130,26 @@ val DefaultPaddingBackgroundColor = compositionLocalOf { PaddingKmp.paddingBackg
  * Default value for function [Padding]
  */
 val DefaultPaddingVisibility = compositionLocalOf { PaddingKmp.PADDING_VISIBILITY}
+/**
+ * Default value for functions [Slider], [LimitSlider]
+ */
+val DefaultOccupancy = compositionLocalOf { SelectorsKmp.OCCUPANCY}
+/**
+ * Default value for functions [Slider], [LimitSlider]
+ */
+val DefaultFillerColor = compositionLocalOf { SelectorsKmp.fillerColor}
+/**
+ * Default value for functions [Slider], [LimitSlider]
+ */
+val DefaultBlankColor = compositionLocalOf { SelectorsKmp.blankColor}
+/**
+ * Default value for functions [Slider], [LimitSlider]
+ */
+val DefaultOnOccupancyChange = compositionLocalOf { SelectorsKmp.onOccupancyChange}
+/**
+ * Default value for functions [RadioButton], [CheckBox]
+ */
+val DefaultEnabledColor = compositionLocalOf { SelectorsKmp.enabledColor}
+
+val DefaultEnabled = compositionLocalOf { SelectorsKmp.ENABLED}
 
