@@ -119,12 +119,12 @@ publishing {
         }
     }
 
-        publications {
+        /*publications {
             create<MavenPublication>("kmp") {
                 from(components["kotlin"])
                 groupId = "com.example"
                 artifactId = "kmp"
                 version = "1.0.0"
             }
-        }
+        }*/
 }
