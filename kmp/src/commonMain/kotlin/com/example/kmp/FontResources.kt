@@ -7,7 +7,6 @@ import androidx.compose.ui.text.font.FontWeight
 import kmp_faktura.kmp.generated.resources.Res
 import kmp_faktura.kmp.generated.resources.*
 import androidx.compose.runtime.Composable
-import androidx.compose.material3.Typography
 
 @Composable
 fun SfProDisplayFontFamily() = FontFamily(

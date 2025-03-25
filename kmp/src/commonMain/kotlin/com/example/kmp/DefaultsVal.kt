@@ -100,7 +100,7 @@ val DefaultRowCircleVisibility = compositionLocalOf { ActionsKmp.ROW_CIRCLE_VISI
 /**
  * Default value for function [SocialRow]
  */
-val DefaultSocialRowIconColor = compositionLocalOf { ActionsKmp.socialRowIconColor}
+val DefaultSocialRowIconColor = compositionLocalOf { ActionsKmp.socialRowIconColor }
 /**
  * Default value for function [SocialRow]
  */
@@ -120,5 +120,5 @@ val DefaultPaddingBackgroundColor = compositionLocalOf { PaddingKmp.paddingBackg
 /**
  * Default value for function [Padding]
  */
-val DefaultPaddingVisibility = compositionLocalOf { PaddingKmp.PADDING_VISIBILITY}
+val DefaultPaddingVisibility = compositionLocalOf { PaddingKmp.PADDING_VISIBILITY }
 
