@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     id("maven-publish")
+    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 val secretsFile: Path = Paths.get(rootProject.rootDir.absolutePath, "secrets.json")
@@ -22,7 +23,7 @@ val githubToken: String = jsonObject.get("githubToken").asString
 
 kotlin {
 
-    //jvm()
+    jvm()
 
     sourceSets {
         val commonMain by getting {
@@ -36,12 +37,16 @@ kotlin {
                 implementation(compose.components.uiToolingPreview)
                 implementation(compose.material3)
                 implementation(libs.navigation.compose)
-                implementation("dev.icerock.moko:resources:0.24.5")
+                implementation(libs.resources)
+                implementation(libs.resourcesCompose)
             }
         }
     }
 }
-multiplatformResources()
+
+multiplatformResources {
+    resourcesPackage.set("kmp.resources")
+}
 
 group = "com.example"
 version = "1.0.0"

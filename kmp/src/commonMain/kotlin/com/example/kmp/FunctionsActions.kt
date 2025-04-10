@@ -30,21 +30,14 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kmp_faktura.kmp.generated.resources.Res
-import kmp_faktura.kmp.generated.resources.arrow_down_big
-import kmp_faktura.kmp.generated.resources.arrow_left_dot
-import kmp_faktura.kmp.generated.resources.arrow_right_dot
-import kmp_faktura.kmp.generated.resources.arrow_up
-import kmp_faktura.kmp.generated.resources.arrow_up_big
-import org.jetbrains.compose.resources.painterResource
+import dev.icerock.moko.resources.compose.painterResource
+import dev.icerock.moko.resources.compose.fontFamilyResource
+import kmp.resources.MR
 
-
-
-    @Composable
+@Composable
     fun DotBanner(
         totalDots: Int = DefaultTotalDots.current,
         currentIndex: Int = DefaultCurrentIndex.current,
@@ -95,7 +88,7 @@ import org.jetbrains.compose.resources.painterResource
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    painter = painterResource(Res.drawable.arrow_left_dot),
+                    painter = painterResource(MR.images.arrow_left_dot),
                     contentDescription = "Arrow Left",
                     tint = if (currentIndex > 0) selectedColor else unselectedColor,
                 )
@@ -125,7 +118,7 @@ import org.jetbrains.compose.resources.painterResource
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    painter = painterResource(Res.drawable.arrow_right_dot),
+                    painter = painterResource(MR.images.arrow_right_dot),
                     contentDescription = "Arrow Right",
                     tint = if (currentIndex < totalDots - 1) selectedColor else unselectedColor,
                 )
@@ -155,7 +148,7 @@ import org.jetbrains.compose.resources.painterResource
                 verticalArrangement = Arrangement.Center
             ) {
                 Icon(
-                    painter = painterResource(Res.drawable.arrow_up_big),
+                    painter = painterResource(MR.images.arrow_up_big),
                     contentDescription = "Arrow Up",
                     modifier = Modifier.size(24.dp),
                     tint = foreColor
@@ -164,11 +157,10 @@ import org.jetbrains.compose.resources.painterResource
                 Text(
                     text = text,
                     style = TextStyle(
-                        fontWeight = FontWeight.W400,
                         fontSize = 17.sp,
                         lineHeight = 22.sp,
                         color = foreColor,
-                        fontFamily = SfProTextFontFamily()
+                        fontFamily = fontFamilyResource(MR.fonts.sf_pro_display_regular)
                     ),
                 )
             }
@@ -196,7 +188,7 @@ import org.jetbrains.compose.resources.painterResource
                 verticalArrangement = Arrangement.Center
             ) {
                 Icon(
-                    painter = painterResource(Res.drawable.arrow_down_big),
+                    painter = painterResource(MR.images.arrow_down_big),
                     contentDescription = "Arrow Down",
                     modifier = Modifier.size(24.dp),
                     tint = foreColor
@@ -205,11 +197,10 @@ import org.jetbrains.compose.resources.painterResource
                 Text(
                     text = text,
                     style = TextStyle(
-                        fontWeight = FontWeight.W400,
                         fontSize = 17.sp,
                         lineHeight = 22.sp,
                         color = foreColor,
-                        fontFamily = SfProTextFontFamily()
+                        fontFamily = fontFamilyResource(MR.fonts.sf_pro_display_regular)
                     ),
                 )
             }
@@ -247,15 +238,14 @@ import org.jetbrains.compose.resources.painterResource
                     Text(
                         text = "Свернуть",
                         style = TextStyle(
-                            fontWeight = FontWeight.W400,
                             fontSize = 15.sp,
                             lineHeight = 20.sp,
                             color = textColor,
-                            fontFamily = SfProTextFontFamily()
+                            fontFamily = fontFamilyResource(MR.fonts.sf_pro_display_regular)
                         ),
                     )
                     Icon(
-                        painter = painterResource(Res.drawable.arrow_up),
+                        painter = painterResource(MR.images.arrow_up),
                         contentDescription = "Arrow Up",
                         tint = arrowColor,
                     )
@@ -348,11 +338,10 @@ import org.jetbrains.compose.resources.painterResource
                 Text(
                     text = text,
                     style = TextStyle(
-                        fontWeight = FontWeight.W400,
                         fontSize = 12.sp,
                         lineHeight = 16.sp,
                         color = textColor,
-                        fontFamily = SfProTextFontFamily()
+                        fontFamily = fontFamilyResource(MR.fonts.sf_pro_display_regular)
                     ),
                     textAlign = TextAlign.Center,
                 )
