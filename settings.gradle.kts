@@ -27,6 +27,14 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/PrincessDao/KMP_Faktura")
+            credentials {
+                username = System.getenv("GITHUB_USERNAME")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
         google()
         mavenCentral()
     }

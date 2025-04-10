@@ -10,7 +10,6 @@ import java.nio.file.Paths
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    id("com.android.library")
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     id("maven-publish")
@@ -22,42 +21,13 @@ val jsonObject: JsonObject = JsonParser.parseString(secretsJson).asJsonObject
 val githubToken: String = jsonObject.get("githubToken").asString
 
 kotlin {
-    @OptIn(DeprecatedTargetPresetApi::class, InternalKotlinGradlePluginApi::class)
-    targets {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        androidTarget {
-            compilerOptions {
-                jvmTarget.set(JvmTarget.JVM_11)
-            }
-        }
 
-        listOf(
-            iosX64(),
-            iosArm64(),
-            iosSimulatorArm64()
-        ).forEach { iosTarget ->
-            iosTarget.binaries.framework {
-                baseName = "ComposeApp"
-                isStatic = true
-            }
-        }
-    }
+    //jvm()
 
     sourceSets {
-        androidMain {
+        val commonMain by getting {
             dependencies {
-                implementation(libs.androidx.lifecycle.runtime.ktx)
-                implementation(compose.preview)
-                implementation(libs.androidx.activity.compose)
-                implementation(compose.components.uiToolingPreview)
-                implementation(libs.androidx.navigation.compose)
-                implementation(libs.androidx.lifecycle.viewmodel)
-                implementation(libs.androidx.lifecycle.runtime.compose)
-                implementation(libs.accompanist.systemuicontroller.v0311alpha)
-            }
-        }
-        commonMain {
-            dependencies {
+                implementation(kotlin("stdlib-common"))
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
@@ -66,46 +36,15 @@ kotlin {
                 implementation(compose.components.uiToolingPreview)
                 implementation(compose.material3)
                 implementation(libs.navigation.compose)
-            }
-        }
-        iosMain {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.ui)
+                implementation("dev.icerock.moko:resources:0.24.5")
             }
         }
     }
 }
-android {
-    namespace = "com.example.functions"
-    compileSdk = 35
-    defaultConfig {
-        lint.targetSdk = libs.versions.android.targetSdk.get().toInt()
-    }
+multiplatformResources()
 
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resource")
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    defaultConfig {
-        multiDexEnabled = true
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        lint.targetSdk = libs.versions.android.targetSdk.get().toInt()
-    }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-}
-dependencies {
-    implementation(libs.androidx.multidex)
-    implementation(libs.gson)
-}
+group = "com.example"
+version = "1.0.0"
 
 publishing {
     repositories {
@@ -118,13 +57,4 @@ publishing {
             }
         }
     }
-
-        /*publications {
-            create<MavenPublication>("kmp") {
-                from(components["kotlin"])
-                groupId = "com.example"
-                artifactId = "kmp"
-                version = "1.0.0"
-            }
-        }*/
 }

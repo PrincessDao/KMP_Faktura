@@ -61,6 +61,7 @@ kotlin {
                 implementation(compose.components.uiToolingPreview)
                 implementation(compose.material3)
                 implementation(libs.navigation.compose)
+                //
             }
         }
         iosMain {
