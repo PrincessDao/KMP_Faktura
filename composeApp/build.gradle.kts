@@ -61,7 +61,7 @@ kotlin {
                 implementation(compose.components.uiToolingPreview)
                 implementation(compose.material3)
                 implementation(libs.navigation.compose)
-                //
+                //implementation("com.example:kmp:1.0.0")
             }
         }
         iosMain {
@@ -127,10 +127,11 @@ dependencies {
 
 repositories {
     maven {
-        url = uri("https://maven.pkg.github.com/PrincessDao/KMP_Faktura")
+        url = uri("https://maven.pkg.github.com/PrincessDao/*")
         credentials {
             username = project.findProperty("GITHUB_USERNAME") as String? ?: System.getenv("GITHUB_USERNAME")
             password = githubToken
         }
     }
+    mavenCentral()
 }
