@@ -10,10 +10,6 @@ buildscript {
     repositories {
         gradlePluginPortal()
     }
-
-    dependencies {
-        classpath(libs.resourcesGradlePlugin)
-    }
 }
 
 allprojects {

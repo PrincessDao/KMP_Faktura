@@ -31,8 +31,7 @@ import kmp_faktura.composeapp.generated.resources.vk
 import kmp_faktura.composeapp.generated.resources.whatsapp
 import kmp_faktura.composeapp.generated.resources.withdraw
 import org.jetbrains.compose.resources.painterResource
-import com.example.
-
+import com.example.kmp.*
 
 @Composable
 fun DotBannerSection(scale: Float) {
@@ -238,12 +237,12 @@ fun ActionsRowSection(scale: Float) {
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     ActionRow(
-                        text = "Повторить",
+                        text = "Повторить\nоперацию",
                         iconPainter = painterResource(Res.drawable.repeat),
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     ActionRow(
-                        text = "Отменить",
+                        text = "Отменить\nоперацию",
                         iconPainter = painterResource(Res.drawable.withdraw),
                     )
                 }
@@ -272,7 +271,7 @@ fun ActionsRowSection(scale: Float) {
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     ActionRow(
-                        text = "Повторить",
+                        text = "Повторить\nоперацию",
                         iconPainter = painterResource(Res.drawable.repeat),
                     )
                 }

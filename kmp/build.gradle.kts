@@ -14,7 +14,6 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.androidLibrary)
     id("maven-publish")
-    id("dev.icerock.mobile.multiplatform-resources")
 }
 
 val secretsFile: Path = Paths.get(rootProject.rootDir.absolutePath, "secrets.json")
@@ -73,10 +72,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-}
-
-multiplatformResources {
-    resourcesPackage.set("kmp.resources")
 }
 
 group = "com.example"

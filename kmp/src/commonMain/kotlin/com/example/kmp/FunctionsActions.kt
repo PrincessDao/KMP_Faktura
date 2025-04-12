@@ -30,12 +30,17 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.icerock.moko.resources.compose.painterResource
-import dev.icerock.moko.resources.compose.fontFamilyResource
-import kmp.resources.MR
+import com.example.kmp.generated.resources.Res
+import com.example.kmp.generated.resources.arrow_down_big
+import com.example.kmp.generated.resources.arrow_left_dot
+import com.example.kmp.generated.resources.arrow_right_dot
+import com.example.kmp.generated.resources.arrow_up
+import com.example.kmp.generated.resources.arrow_up_big
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
     fun DotBanner(
@@ -88,7 +93,7 @@ import kmp.resources.MR
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    painter = painterResource(MR.images.arrow_left_dot),
+                    painter = painterResource(Res.drawable.arrow_left_dot),
                     contentDescription = "Arrow Left",
                     tint = if (currentIndex > 0) selectedColor else unselectedColor,
                 )
@@ -118,7 +123,7 @@ import kmp.resources.MR
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    painter = painterResource(MR.images.arrow_right_dot),
+                    painter = painterResource(Res.drawable.arrow_right_dot),
                     contentDescription = "Arrow Right",
                     tint = if (currentIndex < totalDots - 1) selectedColor else unselectedColor,
                 )
@@ -148,7 +153,7 @@ import kmp.resources.MR
                 verticalArrangement = Arrangement.Center
             ) {
                 Icon(
-                    painter = painterResource(MR.images.arrow_up_big),
+                    painter = painterResource(Res.drawable.arrow_up_big),
                     contentDescription = "Arrow Up",
                     modifier = Modifier.size(24.dp),
                     tint = foreColor
@@ -160,7 +165,8 @@ import kmp.resources.MR
                         fontSize = 17.sp,
                         lineHeight = 22.sp,
                         color = foreColor,
-                        fontFamily = fontFamilyResource(MR.fonts.sf_pro_display_regular)
+                        fontFamily = SfProTextFontFamily(),
+                        fontWeight = FontWeight.W400
                     ),
                 )
             }
@@ -188,7 +194,7 @@ import kmp.resources.MR
                 verticalArrangement = Arrangement.Center
             ) {
                 Icon(
-                    painter = painterResource(MR.images.arrow_down_big),
+                    painter = painterResource(Res.drawable.arrow_down_big),
                     contentDescription = "Arrow Down",
                     modifier = Modifier.size(24.dp),
                     tint = foreColor
@@ -200,7 +206,8 @@ import kmp.resources.MR
                         fontSize = 17.sp,
                         lineHeight = 22.sp,
                         color = foreColor,
-                        fontFamily = fontFamilyResource(MR.fonts.sf_pro_display_regular)
+                        fontFamily = SfProTextFontFamily(),
+                        fontWeight = FontWeight.W400
                     ),
                 )
             }
@@ -241,11 +248,12 @@ import kmp.resources.MR
                             fontSize = 15.sp,
                             lineHeight = 20.sp,
                             color = textColor,
-                            fontFamily = fontFamilyResource(MR.fonts.sf_pro_display_regular)
+                            fontFamily = SfProTextFontFamily(),
+                            fontWeight = FontWeight.W400
                         ),
                     )
                     Icon(
-                        painter = painterResource(MR.images.arrow_up),
+                        painter = painterResource(Res.drawable.arrow_up),
                         contentDescription = "Arrow Up",
                         tint = arrowColor,
                     )
@@ -341,7 +349,8 @@ import kmp.resources.MR
                         fontSize = 12.sp,
                         lineHeight = 16.sp,
                         color = textColor,
-                        fontFamily = fontFamilyResource(MR.fonts.sf_pro_display_regular)
+                        fontFamily = SfProTextFontFamily(),
+                        fontWeight = FontWeight.W400
                     ),
                     textAlign = TextAlign.Center,
                 )

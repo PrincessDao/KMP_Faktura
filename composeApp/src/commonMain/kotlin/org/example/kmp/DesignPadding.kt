@@ -9,8 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.
-
+import com.example.kmp.*
 
 @Composable
 fun PaddingSection(scale: Float) {
