@@ -10,18 +10,6 @@ Pod::Spec.new do |spec|
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '14.0'
                 
-                
-    if !Dir.exist?('build/cocoapods/framework/kmp_library.framework') || Dir.empty?('build/cocoapods/framework/kmp_library.framework')
-        raise "
-
-        Kotlin framework 'kmp_library' doesn't exist yet, so a proper Xcode project can't be generated.
-        'pod install' should be executed after running ':generateDummyFramework' Gradle task:
-
-            ./gradlew :kmp:generateDummyFramework
-
-        Alternatively, proper pod installation is performed during Gradle sync in the IDE (if Podfile location is set)"
-    end
-                
     spec.xcconfig = {
         'ENABLE_USER_SCRIPT_SANDBOXING' => 'NO',
     }
