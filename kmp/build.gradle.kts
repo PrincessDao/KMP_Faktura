@@ -78,6 +78,36 @@ group = "com.example"
 version = "1.0.0"
 
 publishing {
+    publications {
+        withType<MavenPublication> {
+            artifactId = "kmp-library"
+
+            pom {
+                name.set("KMP Library")
+                description.set("A multiplatform library for KMP projects")
+                url.set("https://github.com/PrincessDao/KMP_Faktura")
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("129617886")
+                        name.set("PrincessDao")
+                        email.set("grprincessdao@gmail.com")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git://github.com/PrincessDao/KMP_Faktura.git")
+                    developerConnection.set("scm:git:ssh://github.com/PrincessDao/KMP_Faktura.git")
+                    url.set("https://github.com/PrincessDao/KMP_Faktura")
+                }
+            }
+        }
+    }
+
     repositories {
         maven {
             name = "GitHubPackages"
