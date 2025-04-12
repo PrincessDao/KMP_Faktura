@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.androidLibrary)
     id("maven-publish")
     id("dev.icerock.mobile.multiplatform-resources")
 }
@@ -22,18 +23,25 @@ val jsonObject: JsonObject = JsonParser.parseString(secretsJson).asJsonObject
 val githubToken: String = jsonObject.get("githubToken").asString
 
 kotlin {
-
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "shared"
-            isStatic = true
+    androidTarget {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
         }
+        publishLibraryVariants("release", "debug")
     }
+    jvm()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
     sourceSets {
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.androidx.lifecycle.runtime.ktx)
+                implementation(libs.androidx.activity.compose)
+            }
+        }
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
@@ -49,6 +57,21 @@ kotlin {
                 implementation(libs.resourcesCompose)
             }
         }
+    }
+}
+
+android {
+    namespace = "com.example.kmp.library"
+    compileSdk = 34
+
+    defaultConfig {
+        minSdk = 24
+    }
+
+    
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 

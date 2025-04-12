@@ -61,7 +61,7 @@ kotlin {
                 implementation(compose.components.uiToolingPreview)
                 implementation(compose.material3)
                 implementation(libs.navigation.compose)
-                //implementation("com.example:kmp:1.0.0")
+                implementation("com.example:kmp:1.0.0")
             }
         }
         iosMain {
