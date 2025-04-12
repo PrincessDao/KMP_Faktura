@@ -18,13 +18,6 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
-            url = uri("https://maven.pkg.github.com/USERNAME/REPOSITORY")
-            credentials {
-                username = System.getenv("GITHUB_USERNAME")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
         google()
         mavenCentral()
     }
