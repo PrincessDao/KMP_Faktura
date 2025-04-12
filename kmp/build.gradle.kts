@@ -31,9 +31,16 @@ kotlin {
         publishLibraryVariants("release", "debug")
     }
     jvm()
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "kmp-library"
+            isStatic = true
+        }
+    }
 
     sourceSets {
         val androidMain by getting {
@@ -67,6 +74,8 @@ kotlin {
                 baseName = "kmp-library"
                 isStatic = true
             }
+
+            extraSpecAttributes["resource"] = "'build/cocoapods/framework/kmp-library.framework/*.bundle'"
         }
     }
 }
