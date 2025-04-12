@@ -4,7 +4,16 @@ plugins {
     alias(libs.plugins.jetbrainsCompose) apply false
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
-    id("dev.icerock.mobile.multiplatform-resources") version "0.24.5"
+}
+
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+
+    dependencies {
+        classpath(libs.resourcesGradlePlugin)
+    }
 }
 
 allprojects {

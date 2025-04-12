@@ -23,10 +23,16 @@ val githubToken: String = jsonObject.get("githubToken").asString
 
 kotlin {
 
-    jvm()
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "shared"
+            isStatic = true
+        }
+    }
     sourceSets {
         val commonMain by getting {
             dependencies {
