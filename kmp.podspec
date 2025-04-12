@@ -2,7 +2,7 @@ Pod::Spec.new do |spec|
     spec.name                     = 'kmp-library'
     spec.version                  = '1.0.0'
     spec.homepage                 = 'https://github.com/PrincessDao/KMP_Faktura'
-    pec.source = { :git => 'https://github.com/PrincessDao/KMP_Faktura.git', :tag => '1.0.0' }
+    spec.source = { :git => 'https://github.com/PrincessDao/KMP_Faktura.git', :tag => '1.0.0' }
     spec.authors                  = ''
     spec.license                  = ''
     spec.summary                  = 'A multiplatform library for KMP projects.'
