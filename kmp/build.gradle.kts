@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.cocoapods)
     id("maven-publish")
 }
 
@@ -56,6 +57,17 @@ kotlin {
                 implementation(libs.resourcesCompose)
             }
         }
+
+        cocoapods {
+            summary = "A multiplatform library for KMP projects"
+            homepage = "https://github.com/PrincessDao/KMP_Faktura"
+            version = "1.0.0"
+            ios.deploymentTarget = "14.0"
+            framework {
+                baseName = "kmp-library"
+                isStatic = true
+            }
+        }
     }
 }
 
@@ -79,7 +91,9 @@ version = "1.0.0"
 
 publishing {
     publications {
-        withType<MavenPublication> {
+        create<MavenPublication>("kmp-library") {
+
+            from(components["kotlin"])
             artifactId = "kmp-library"
 
             pom {
