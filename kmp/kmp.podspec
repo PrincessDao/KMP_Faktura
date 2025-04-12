@@ -5,7 +5,7 @@ Pod::Spec.new do |spec|
     pec.source = { :git => 'https://github.com/PrincessDao/KMP_Faktura.git', :tag => '1.0.0' }
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'A multiplatform library for KMP projects.'
+    spec.summary                  = 'A multiplatform library for KMP projects'
     spec.vendored_frameworks      = 'build/cocoapods/framework/kmp_library.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '14.0'
