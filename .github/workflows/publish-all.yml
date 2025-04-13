@@ -43,10 +43,10 @@ jobs:
           key: ${{ runner.os }}-v1-${{ hashFiles('**/libs.versions.toml') }}
 
       - name: Build and Publish KMPLibrary
-        run: ./gradlew :KMPLibrary:kmmBridgePublish \
-          :KMPLibrary:publishKotlinMultiplatformPublicationToGitHubPackagesRepository \
-          :KMPLibrary:publishAndroidDebugPublicationToGitHubPackagesRepository \
-          :KMPLibrary:publishAndroidReleasePublicationToGitHubPackagesRepository \
+        run: ./gradlew :kmp:kmmBridgePublish \
+          :kmp:publishKotlinMultiplatformPublicationToGitHubPackagesRepository \
+          :kmp:publishAndroidDebugPublicationToGitHubPackagesRepository \
+          :kmp:publishAndroidReleasePublicationToGitHubPackagesRepository \
           -PENABLE_PUBLISHING=true \
           -PGITHUB_PUBLISH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
           -PGITHUB_REPO=${{ github.repository }} \
