@@ -87,9 +87,7 @@ android {
     }
 }
 
-val LIBRARY_VERSION: String by project
-
-version = LIBRARY_VERSION
+version = "0.0.1"
 group = "com.example"
 
 addGithubPackagesRepository()
