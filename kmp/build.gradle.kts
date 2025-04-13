@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.InternalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -31,13 +32,15 @@ kotlin {
         publishLibraryVariants("release", "debug")
     }
     jvm()
+    val xcf = XCFramework("KMPLibrary")
     listOf(
         iosX64(),
         iosArm64(),
         iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "kmp-library"
+    ).forEach {
+        it.binaries.framework {
+            baseName = "KMPLibrary"
+            xcf.add(this)
             isStatic = true
         }
     }
