@@ -1,0 +1,62 @@
+name: Publish All
+on:
+  workflow_dispatch:
+
+jobs:
+  kmmbridgepublish:
+    permissions:
+      contents: write
+      packages: write
+    concurrency: "kmmbridgepublish-${{ github.repository }}"
+    runs-on: macos-latest
+    steps:
+      - name: Checkout the repo with tags
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - uses: touchlab/read-property@0.1
+        id: versionPropertyValue
+        with:
+          file: ./gradle.properties
+          property: LIBRARY_VERSION
+
+      - name: Print versionPropertyValue
+        id: output
+        run: echo "${{ steps.versionPropertyValue.outputs.propVal }}"
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: "adopt"
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-home-cache-cleanup: true
+
+      - name: Cache KMP tooling
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan
+          key: ${{ runner.os }}-v1-${{ hashFiles('**/libs.versions.toml') }}
+
+      - name: Build and Publish KMPLibrary
+        run: ./gradlew :kmp:kmmBridgePublish \
+          :kmp:publishKotlinMultiplatformPublicationToGitHubPackagesRepository \
+          :kmp:publishAndroidDebugPublicationToGitHubPackagesRepository \
+          :kmp:publishAndroidReleasePublicationToGitHubPackagesRepository \
+          -PENABLE_PUBLISHING=true \
+          -PGITHUB_PUBLISH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+          -PGITHUB_REPO=${{ github.repository }} \
+          --no-daemon --stacktrace
+        env:
+          GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
+
+      - uses: touchlab/ga-update-release-tag@v1
+        id: update-release-tag
+        with:
+          commitMessage: "KMP SPM packages release for ${{ steps.versionPropertyValue.outputs.propVal }}"
+          tagMessage: "KMP release version ${{ steps.versionPropertyValue.outputs.propVal }}"
+          tagVersion: ${{ steps.versionPropertyValue.outputs.propVal }}
