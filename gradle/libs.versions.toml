@@ -25,6 +25,7 @@ core = "1.15.0"
 annotationJvmVersion = "1.9.1"
 jetbrainsKotlinJvm = "1.9.0"
 cocoapodsVersion = "2.1.20"
+kmmbridgeVersion = "1.0.0"
 
 [libraries]
 accompanist-systemuicontroller-v0311alpha = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
@@ -59,4 +60,5 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "cocoapodsVersion"}
+cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "cocoapodsVersion" }
+kmmbridge = { id = "co.touchlab.kmmbridge", version.ref = "kmmbridgeVersion" }

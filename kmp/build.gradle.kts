@@ -14,7 +14,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.cocoapods)
+    alias(libs.plugins.kmmbridge)
     id("maven-publish")
 }
 
@@ -32,7 +32,6 @@ kotlin {
         publishLibraryVariants("release", "debug")
     }
     jvm()
-    val xcf = XCFramework("KMPLibrary")
     listOf(
         iosX64(),
         iosArm64(),
@@ -40,7 +39,6 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "KMPLibrary"
-            xcf.add(this)
             isStatic = true
         }
     }
@@ -67,24 +65,15 @@ kotlin {
                 implementation(libs.resourcesCompose)
             }
         }
-
-        cocoapods {
-            summary = "A multiplatform library for KMP projects"
-            homepage = "https://github.com/PrincessDao/KMP_Faktura"
-            version = "1.0.0"
-            ios.deploymentTarget = "14.0"
-            framework {
-                baseName = "kmp-library"
-                isStatic = true
-            }
-
-            extraSpecAttributes["resource"] = "'build/cocoapods/framework/kmp-library.framework/*.bundle'"
-        }
+    }
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 }
 
 android {
-    namespace = "com.example.kmp.library"
+    namespace = "com.example.kmp"
     compileSdk = 34
 
     defaultConfig {
@@ -98,9 +87,17 @@ android {
     }
 }
 
-group = "com.example"
-version = "1.0.0"
+val LIBRARY_VERSION: String by project
 
+version = LIBRARY_VERSION
+group = "com.example"
+
+addGithubPackagesRepository()
+kmmbridge {
+    mavenPublishArtifacts()
+    spm()
+}
+/*
 publishing {
     publications {
         create<MavenPublication>("kmp-library") {
@@ -144,4 +141,4 @@ publishing {
             }
         }
     }
-}
+}*/
