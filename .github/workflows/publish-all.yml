@@ -57,6 +57,6 @@ jobs:
       - uses: touchlab/ga-update-release-tag@v1
         id: update-release-tag
         with:
-          commitMessage: "KMP SPM package release for ${{ steps.versionPropertyValue.outputs.propVal }}"
+          commitMessage: "KMP SPM packages release for ${{ steps.versionPropertyValue.outputs.propVal }}"
           tagMessage: "KMP release version ${{ steps.versionPropertyValue.outputs.propVal }}"
           tagVersion: ${{ steps.versionPropertyValue.outputs.propVal }}
