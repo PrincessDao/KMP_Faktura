@@ -1,16 +1,14 @@
-# Добро пожаловать в репозиторий дизайн-системы "Фактура"!
+This is a Kotlin Multiplatform project targeting Android, iOS.
 
-Этот проект направлен на создание унифицированной и удобной для пользователя дизайн-системы для мобильного банковского приложения
+* `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
+  It contains several subfolders:
+  - `commonMain` is for code that’s common for all targets.
+  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
+    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
+    `iosMain` would be the right folder for such calls.
 
-## Руководители
-- Терещенко Юрий Николаевич
-- Штеффен Кирилл 
+* `/iosApp` contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform, 
+  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
 
-## Участники
-- Васильева Яна (https://github.com/Yana750)
-- Шарыпов Виталий (https://github.com/PrincessDao)
-- Кузьмин Иннокентий (https://github.com/MlrariA)
 
-## Язык программирования: Kotlin
-
-## Технология: Kotlin Multiplatform
+Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
