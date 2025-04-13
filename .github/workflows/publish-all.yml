@@ -43,10 +43,7 @@ jobs:
           key: ${{ runner.os }}-v1-${{ hashFiles('**/libs.versions.toml') }}
 
       - name: Build and Publish KMPLibrary
-        run: ./gradlew :kmp:kmmBridgePublish :kmp:publish -PENABLE_PUBLISHING=true \
-          -PGITHUB_PUBLISH_TOKEN=${{ secrets.GITHUB_TOKEN }} \
-          -PGITHUB_REPO=${{ github.repository }} \
-          --no-daemon --stacktrace
+        run: ./gradlew :kmp:kmmBridgePublish :kmp:publish -PENABLE_PUBLISHING=true -PGITHUB_PUBLISH_TOKEN=${{ secrets.GITHUB_TOKEN }} -PGITHUB_REPO=${{ github.repository }} --no-daemon --stacktrace
         env:
           GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
 
