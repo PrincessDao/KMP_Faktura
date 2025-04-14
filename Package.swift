@@ -11,9 +11,9 @@ let package = Package(
         ),
     ],
     targets: [
-        .binaryTarget(
+        .target(
             name: "KMPLibrary",
-            path: "./kmp/build/XCFrameworks/release/KMPLibrary.xcframework"
+            path: "Sources"
         )
     ]
 )
