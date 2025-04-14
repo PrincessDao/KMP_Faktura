@@ -1,4 +1,5 @@
 name: Publish All
+
 on:
   workflow_dispatch:
 
@@ -9,6 +10,7 @@ jobs:
       packages: write
     concurrency: "kmmbridgepublish-${{ github.repository }}"
     runs-on: macos-latest
+
     steps:
       - name: Checkout the repo with tags
         uses: actions/checkout@v4
@@ -46,6 +48,60 @@ jobs:
         run: ./gradlew :kmp:kmmBridgePublish :kmp:publish -PENABLE_PUBLISHING=true -PGITHUB_PUBLISH_TOKEN=${{ secrets.GITHUB_TOKEN }} -PGITHUB_REPO=${{ github.repository }} --no-daemon --stacktrace
         env:
           GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
+
+      - name: Zip XCFramework
+        run: |
+          cd kmp/build/XCFrameworks/release
+          zip -r KMPLibrary.xcframework.zip KMPLibrary.xcframework
+          mv KMPLibrary.xcframework.zip ${{ github.workspace }}
+
+      - name: Compute checksum
+        run: |
+          CHECKSUM=$(swift package compute-checksum KMPLibrary.xcframework.zip)
+          echo "CHECKSUM=$CHECKSUM" >> $GITHUB_ENV
+
+      - name: Update Package.swift with URL and checksum
+        run: |
+          VERSION=${{ steps.versionPropertyValue.outputs.propVal }}
+          REPO_URL="https://github.com/${{ github.repository }}/releases/download/$VERSION/KMPLibrary.xcframework.zip"
+          cat > Package.swift <<EOF
+          // swift-tools-version:5.6
+          import PackageDescription
+
+          let package = Package(
+              name: "KMPLibrary",
+              platforms: [.iOS(.v13)],
+              products: [
+                  .library(
+                      name: "KMPLibrary",
+                      targets: ["KMPLibrary"]
+                  ),
+              ],
+              targets: [
+                  .binaryTarget(
+                      name: "KMPLibrary",
+                      url: "$REPO_URL",
+                      checksum: "${{ env.CHECKSUM }}"
+                  )
+              ]
+          )
+          EOF
+
+      - name: Commit updated Package.swift
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add Package.swift
+          git commit -m "Update Package.swift for version ${{ steps.versionPropertyValue.outputs.propVal }}"
+          git push origin HEAD
+
+      - name: Upload xcframework archive to release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.versionPropertyValue.outputs.propVal }}
+          files: KMPLibrary.xcframework.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: touchlab/ga-update-release-tag@v1
         id: update-release-tag
