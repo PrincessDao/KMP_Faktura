@@ -33,6 +33,10 @@ object PaddingKmp {
     const val PADDING_VISIBILITY = 0.2f
 }
 
+object SelectorsKMP {
+    val selector = 375.dp
+}
+
 /**
  * Default value for functions [DotBanner], [DotPersonalOffer], [ActionSlider]
  */
@@ -122,3 +126,4 @@ val DefaultPaddingBackgroundColor = compositionLocalOf { PaddingKmp.paddingBackg
  */
 val DefaultPaddingVisibility = compositionLocalOf { PaddingKmp.PADDING_VISIBILITY }
 
+val DefaultSelector = compositionLocalOf { SelectorsKMP.selector }
