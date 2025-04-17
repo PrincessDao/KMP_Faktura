@@ -64,10 +64,6 @@ kotlin {
             }
         }
     }
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    compilerOptions {
-        freeCompilerArgs.add("-Xexpect-actual-classes")
-    }
 }
 
 android {
@@ -89,5 +85,6 @@ version = "0.0.1"
 group = "com.example"
 
 kmmbridge {
+    mavenPublishArtifacts()
     spm()
 }
