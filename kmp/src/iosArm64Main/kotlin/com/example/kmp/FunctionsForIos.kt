@@ -7,7 +7,7 @@ import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExportObjCClass
 import platform.UIKit.UIViewController
 
-@OptIn(BetaInteropApi::class)
+/*@OptIn(BetaInteropApi::class)
 @ExportObjCClass
 @Suppress("unused")
 object KMPViewController {
@@ -24,4 +24,14 @@ fun kmpPadding(
         visibility = alpha
     )
 }
+    }*/
+
+@Suppress("unused")
+object KMPViewController {
+fun kmpPadding(
+): UIViewController  {
+    return UIViewController()
+}
     }
+
+

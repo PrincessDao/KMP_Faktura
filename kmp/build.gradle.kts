@@ -29,9 +29,8 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
-        publishLibraryVariants("release", "debug")
+        publishLibraryVariants("release")
     }
-    jvm()
     listOf(
         iosX64(),
         iosArm64(),
@@ -39,7 +38,6 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "KMPLibrary"
-            isStatic = true
         }
     }
 
@@ -90,53 +88,6 @@ android {
 version = "0.0.1"
 group = "com.example"
 
-addGithubPackagesRepository()
 kmmbridge {
-    mavenPublishArtifacts()
     spm()
 }
-/*
-publishing {
-    publications {
-        create<MavenPublication>("kmp-library") {
-
-            from(components["kotlin"])
-            artifactId = "kmp-library"
-
-            pom {
-                name.set("KMP Library")
-                description.set("A multiplatform library for KMP projects")
-                url.set("https://github.com/PrincessDao/KMP_Faktura")
-                licenses {
-                    license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("129617886")
-                        name.set("PrincessDao")
-                        email.set("grprincessdao@gmail.com")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:git://github.com/PrincessDao/KMP_Faktura.git")
-                    developerConnection.set("scm:git:ssh://github.com/PrincessDao/KMP_Faktura.git")
-                    url.set("https://github.com/PrincessDao/KMP_Faktura")
-                }
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/PrincessDao/KMP_Faktura")
-            credentials {
-                username = project.findProperty("GITHUB_USERNAME") as String? ?: System.getenv("GITHUB_USERNAME")
-                password = githubToken
-            }
-        }
-    }
-}*/

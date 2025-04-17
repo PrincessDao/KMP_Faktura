@@ -25,7 +25,6 @@ jobs:
           property: LIBRARY_VERSION
 
       - name: Print versionPropertyValue
-        id: output
         run: echo "${{ steps.versionPropertyValue.outputs.propVal }}"
 
       - uses: actions/setup-java@v2
@@ -37,15 +36,17 @@ jobs:
         with:
           gradle-home-cache-cleanup: true
 
-      - name: Cache KMP tooling
+      - name: Cache Gradle and KMP
         uses: actions/cache@v4
         with:
           path: |
             ~/.konan
-          key: ${{ runner.os }}-v1-${{ hashFiles('**/libs.versions.toml') }}
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-kmp-${{ hashFiles('/*.gradle*', '/gradle.properties') }}
 
-      - name: Build and Publish KMPLibrary
-        run: ./gradlew :kmp:kmmBridgePublish :kmp:publish -PENABLE_PUBLISHING=true -PGITHUB_PUBLISH_TOKEN=${{ secrets.GITHUB_TOKEN }} -PGITHUB_REPO=${{ github.repository }} --no-daemon --stacktrace
+      - name: Build and Publish KMP Library (XCFramework only)
+        run: ./gradlew :kmp:kmmBridgePublish --no-daemon --stacktrace --parallel --configuration-cache -PENABLE_PUBLISHING=true -PGITHUB_PUBLISH_TOKEN=${{ secrets.GITHUB_TOKEN }} -PGITHUB_REPO=${{ github.repository }}
         env:
           GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
 
@@ -60,7 +61,7 @@ jobs:
           CHECKSUM=$(swift package compute-checksum KMPLibrary.xcframework.zip)
           echo "CHECKSUM=$CHECKSUM" >> $GITHUB_ENV
 
-      - name: Update Package.swift with URL and checksum
+      - name: Update Package.swift
         run: |
           VERSION=${{ steps.versionPropertyValue.outputs.propVal }}
           REPO_URL="https://github.com/${{ github.repository }}/releases/download/$VERSION/KMPLibrary.xcframework.zip"
@@ -95,7 +96,7 @@ jobs:
           git commit -m "Update Package.swift for version ${{ steps.versionPropertyValue.outputs.propVal }}"
           git push origin HEAD
 
-      - name: Upload xcframework archive to release
+      - name: Upload xcframework archive to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.versionPropertyValue.outputs.propVal }}
@@ -104,7 +105,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: touchlab/ga-update-release-tag@v1
-        id: update-release-tag
         with:
           commitMessage: "KMP SPM packages release for ${{ steps.versionPropertyValue.outputs.propVal }}"
           tagMessage: "KMP release version ${{ steps.versionPropertyValue.outputs.propVal }}"
