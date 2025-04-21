@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.scope.publishBuildArtifacts
 import org.jetbrains.kotlin.gradle.DeprecatedTargetPresetApi
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.InternalKotlinGradlePluginApi
@@ -84,6 +85,7 @@ android {
 version = "0.0.1"
 group = "com.example"
 
+addGithubPackagesRepository()
 kmmbridge {
     mavenPublishArtifacts()
     spm()
