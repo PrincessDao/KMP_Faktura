@@ -62,8 +62,19 @@ kotlin {
                 implementation(libs.navigation.compose)
                 implementation(libs.resources)
                 implementation(libs.resourcesCompose)
+
             }
         }
+        val iosMain by creating {
+            dependsOn(commonMain)
+            dependencies {
+
+            }
+        }
+
+        iosX64Main { dependsOn(iosMain) }
+        iosArm64Main { dependsOn(iosMain) }
+        iosSimulatorArm64Main { dependsOn(iosMain) }
     }
 }
 
