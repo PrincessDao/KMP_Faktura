@@ -1,4 +1,4 @@
-name: Cleanup Artifacts
+name: Cleanup Packages, Tags and Releases
 
 on:
   workflow_dispatch:
@@ -12,29 +12,31 @@ jobs:
 
     steps:
       - name: Delete all packages
-        uses: actions/delete-package-versions@v4
-        with:
-          package-name: '*' # удалит все пакеты
-          package-type: 'container' # или 'maven', если используешь Maven
-          min-versions-to-keep: 0
+        run: |
+          gh api user/packages --paginate -q '.[].name' | while read package; do
+            echo "Deleting package: $package"
+            gh api -X DELETE /user/packages/maven/$package
+          done
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fetch tags
+      - name: Checkout with tags
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           fetch-tags: true
 
-      - name: Delete all tags
+      - name: Delete all git tags
         run: |
           git tag | while read tag; do
+            echo "Deleting tag: $tag"
             git push origin :refs/tags/$tag
           done
 
       - name: Delete all releases
         run: |
-          gh release list | awk '{print $1}' | while read release; do
+          gh release list -L 1000 | awk '{print $1}' | while read release; do
+            echo "Deleting release: $release"
             gh release delete "$release" -y
           done
         env:
