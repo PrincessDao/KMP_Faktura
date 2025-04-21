@@ -9,7 +9,6 @@ import platform.UIKit.UIViewController
 
 @OptIn(BetaInteropApi::class)
 @ExportObjCClass
-@Suppress("unused")
 object KMPViewController {
 fun kmpPadding(
     width: Dp,
@@ -25,5 +24,17 @@ fun kmpPadding(
     )
 }
     }
+
+fun getKMPViewController(
+    width: Float,
+    height: Float,
+    color: Long,
+    alpha: Float
+): UIViewController = KMPViewController.kmpPadding(
+    width = Dp(width),
+    height = Dp(height),
+    color = color,
+    alpha = alpha
+)
 
 
