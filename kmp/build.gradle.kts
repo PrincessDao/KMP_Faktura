@@ -39,6 +39,7 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "KMPLibrary"
+            freeCompilerArgs += listOf("-g")
         }
     }
 
