@@ -18,25 +18,46 @@ fun callComposableFunction(
     functionName: String,
     args: Map<String, Any> = emptyMap()
 ): UIViewController {
+    println("Calling composable function: $functionName with args: $args")
+
     return ComposeUIViewController {
         when (functionName) {
-            "Padding" -> ComposeFunctions.Padding(
-                width = (args["width"] as? Number)?.toFloat()?.dp ?: DefaultPaddingWidth.current,
-                height = (args["height"] as? Number)?.toFloat()?.dp ?: DefaultPaddingHeight.current,
-                backgroundColor = when (val color = args["color"]) {
-                    is String -> parseColor(color)
-                    else -> DefaultPaddingBackgroundColor.current
-                },
-                visibility = (args["alpha"] as? Number)?.toFloat() ?: DefaultPaddingVisibility.current
-            )
-            "Button" -> ComposeFunctions.Button(
-                text = args["text"] as? String ?: "Default",
-                color = when (val color = args["color"]) {
+            "Padding" -> {
+                val width = (args["width"] as? Number)?.toFloat()?.dp ?: DefaultPaddingWidth.current
+                val height = (args["height"] as? Number)?.toFloat()?.dp ?: DefaultPaddingHeight.current
+                val backgroundColor = when (val color = args["color"]) {
                     is String -> parseColor(color)
                     else -> DefaultPaddingBackgroundColor.current
                 }
-            )
-            else -> error("Unknown function: $functionName")
+                val visibility = (args["alpha"] as? Number)?.toFloat() ?: DefaultPaddingVisibility.current
+
+                println("Padding params -> width: $width, height: $height, color: $backgroundColor, alpha: $visibility")
+
+                ComposeFunctions.Padding(
+                    width = width,
+                    height = height,
+                    backgroundColor = backgroundColor,
+                    visibility = visibility
+                )
+            }
+            "Button" -> {
+                val text = args["text"] as? String ?: "Default"
+                val color = when (val color = args["color"]) {
+                    is String -> parseColor(color)
+                    else -> DefaultPaddingBackgroundColor.current
+                }
+
+                println("Button params -> text: $text, color: $color")
+
+                ComposeFunctions.Button(
+                    text = text,
+                    color = color
+                )
+            }
+            else -> {
+                println("Unknown function: $functionName")
+                error("Unknown function: $functionName")
+            }
         }
     }
 }
