@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 
 
-object ComposeFunctions {
     @Composable
     fun Padding(
         width: Dp = DefaultPaddingWidth.current,
@@ -26,8 +25,3 @@ object ComposeFunctions {
         ) {
         }
     }
-
-    @Composable
-    fun Button(text: String, color: Color) {
-    }
-}
