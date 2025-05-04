@@ -25,8 +25,7 @@ jobs:
           property: LIBRARY_VERSION
 
       - name: Print versionPropertyValue
-        id: output
-        run: echo "${{ steps.versionPropertyValue.outputs.propVal }}"
+        run: echo "Version is ${{ steps.versionPropertyValue.outputs.propVal }}"
 
       - uses: actions/setup-java@v2
         with:
@@ -34,8 +33,6 @@ jobs:
           java-version: 17
 
       - uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-home-cache-cleanup: true
 
       - name: Cache KMP tooling
         uses: actions/cache@v4
@@ -49,20 +46,18 @@ jobs:
         env:
           GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
 
-      - name: Collect dependent frameworks
+      - name: Download Skiko.xcframework
         run: |
-          mkdir -p KMPLibrary_Package
-          cp -R kmp/build/XCFrameworks/release/KMPLibrary.xcframework KMPLibrary_Package/
-          
-          # Предположим, что Skiko и corgi лежат рядом (это надо настроить в build.gradle)
-          cp -R kmp/build/XCFrameworks/release/Skiko.xcframework KMPLibrary_Package/
-          cp -R kmp/build/XCFrameworks/release/skia-corgi.xcframework KMPLibrary_Package/
-          cp -R kmp/build/XCFrameworks/release/skiko-resources.bundle KMPLibrary_Package/
+          curl -L -o skiko.zip https://github.com/JetBrains/skiko/releases/download/0.9.16/skiko.xcframework.zip
+          unzip skiko.zip
 
-      - name: Zip XCFramework
+      - name: Combine KMPLibrary and Skiko into one package
         run: |
-          cd KMPLibrary_Package
-          zip -r KMPLibrary.xcframework.zip ./*
+          cd kmp/build/XCFrameworks/release
+          mkdir KMPLibrary_Package
+          mv KMPLibrary.xcframework KMPLibrary_Package/
+          mv skiko.xcframework KMPLibrary_Package/
+          zip -r KMPLibrary.xcframework.zip KMPLibrary_Package
           mv KMPLibrary.xcframework.zip ${{ github.workspace }}
 
       - name: Compute checksum
@@ -119,3 +114,4 @@ jobs:
           commitMessage: "KMP SPM packages release for ${{ steps.versionPropertyValue.outputs.propVal }}"
           tagMessage: "KMP release version ${{ steps.versionPropertyValue.outputs.propVal }}"
           tagVersion: ${{ steps.versionPropertyValue.outputs.propVal }}
+
