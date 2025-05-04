@@ -9,7 +9,6 @@ import platform.UIKit.UIViewController
 import kotlin.experimental.ExperimentalNativeApi
 
 internal fun initFramework() {
-    callComposableFunction("")
 }
 
 @OptIn(ExperimentalForeignApi::class, ExperimentalNativeApi::class)
