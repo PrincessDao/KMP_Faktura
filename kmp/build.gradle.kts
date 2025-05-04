@@ -19,12 +19,35 @@ plugins {
     id("maven-publish")
 }
 
+repositories {
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+}
+
 val secretsFile: Path = Paths.get(rootProject.rootDir.absolutePath, "secrets.json")
 val secretsJson = String(Files.readAllBytes(secretsFile))
 val jsonObject: JsonObject = JsonParser.parseString(secretsJson).asJsonObject
 val githubToken: String = jsonObject.get("githubToken").asString
 
 kotlin {
+    val osName = System.getProperty("os.name")
+    val targetOs = when {
+        osName == "Mac OS X" -> "macos"
+        osName.startsWith("Win") -> "windows"
+        osName.startsWith("Linux") -> "linux"
+        else -> error("Unsupported OS: $osName")
+    }
+
+    val osArch = System.getProperty("os.arch")
+    val targetArch = when (osArch) {
+        "x86_64", "amd64" -> "x64"
+        "aarch64" -> "arm64"
+        else -> error("Unsupported arch: $osArch")
+    }
+
+    val versionSkiko = "0.9.16"
+    val target = "${targetOs}-${targetArch}"
+
+
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
@@ -39,6 +62,7 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "KMPLibrary"
+            export("org.jetbrains.skiko:skiko")
             freeCompilerArgs += listOf("-g")
         }
     }
@@ -63,7 +87,7 @@ kotlin {
                 implementation(libs.navigation.compose)
                 implementation(libs.resources)
                 implementation(libs.resourcesCompose)
-
+                implementation("org.jetbrains.skiko:skiko:0.9.16")
             }
         }
         val iosMain by creating {
@@ -92,28 +116,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-}
-
-val osName = System.getProperty("os.name")
-val targetOs = when {
-    osName == "Mac OS X" -> "macos"
-    osName.startsWith("Win") -> "windows"
-    osName.startsWith("Linux") -> "linux"
-    else -> error("Unsupported OS: $osName")
-}
-
-val osArch = System.getProperty("os.arch")
-val targetArch = when (osArch) {
-    "x86_64", "amd64" -> "x64"
-    "aarch64" -> "arm64"
-    else -> error("Unsupported arch: $osArch")
-}
-
-val versionSkiko = "0.8.9"
-val target = "${targetOs}-${targetArch}"
-
-dependencies {
-    implementation("org.jetbrains.skiko:skiko-awt-runtime-$target:$versionSkiko")
 }
 
 version = "0.0.1"
