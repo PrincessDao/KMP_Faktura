@@ -49,10 +49,20 @@ jobs:
         env:
           GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
 
+      - name: Collect dependent frameworks
+        run: |
+          mkdir -p KMPLibrary_Package
+          cp -R kmp/build/XCFrameworks/release/KMPLibrary.xcframework KMPLibrary_Package/
+          
+          # Предположим, что Skiko и corgi лежат рядом (это надо настроить в build.gradle)
+          cp -R kmp/build/XCFrameworks/release/Skiko.xcframework KMPLibrary_Package/
+          cp -R kmp/build/XCFrameworks/release/skia-corgi.xcframework KMPLibrary_Package/
+          cp -R kmp/build/XCFrameworks/release/skiko-resources.bundle KMPLibrary_Package/
+
       - name: Zip XCFramework
         run: |
-          cd kmp/build/XCFrameworks/release
-          zip -r KMPLibrary.xcframework.zip KMPLibrary.xcframework
+          cd KMPLibrary_Package
+          zip -r KMPLibrary.xcframework.zip ./*
           mv KMPLibrary.xcframework.zip ${{ github.workspace }}
 
       - name: Compute checksum
