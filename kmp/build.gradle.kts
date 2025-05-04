@@ -55,15 +55,17 @@ kotlin {
         }
         publishLibraryVariants("release")
     }
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
+
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    val xcFramework = XCFramework()
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>().configureEach {
+        binaries.framework {
             baseName = "KMPLibrary"
             export("org.jetbrains.skiko:skiko")
-            freeCompilerArgs += listOf("-g")
+            xcFramework.add(this)
         }
     }
 
@@ -92,9 +94,6 @@ kotlin {
         }
         val iosMain by creating {
             dependsOn(commonMain)
-            dependencies {
-
-            }
         }
 
         iosX64Main { dependsOn(iosMain) }
