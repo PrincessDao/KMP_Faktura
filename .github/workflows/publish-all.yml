@@ -25,7 +25,8 @@ jobs:
           property: LIBRARY_VERSION
 
       - name: Print versionPropertyValue
-        run: echo "Version is ${{ steps.versionPropertyValue.outputs.propVal }}"
+        id: output
+        run: echo "${{ steps.versionPropertyValue.outputs.propVal }}"
 
       - uses: actions/setup-java@v2
         with:
@@ -33,6 +34,8 @@ jobs:
           java-version: 17
 
       - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-home-cache-cleanup: true
 
       - name: Cache KMP tooling
         uses: actions/cache@v4
@@ -46,18 +49,10 @@ jobs:
         env:
           GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
 
-      - name: Download Skiko.xcframework
-        run: |
-          curl -L -o skiko.zip https://github.com/JetBrains/skiko/releases/download/0.9.16/skiko.xcframework.zip
-          unzip skiko.zip
-
-      - name: Combine KMPLibrary and Skiko into one package
+      - name: Zip XCFramework
         run: |
           cd kmp/build/XCFrameworks/release
-          mkdir KMPLibrary_Package
-          mv KMPLibrary.xcframework KMPLibrary_Package/
-          mv skiko.xcframework KMPLibrary_Package/
-          zip -r KMPLibrary.xcframework.zip KMPLibrary_Package
+          zip -r KMPLibrary.xcframework.zip KMPLibrary.xcframework
           mv KMPLibrary.xcframework.zip ${{ github.workspace }}
 
       - name: Compute checksum
@@ -114,4 +109,3 @@ jobs:
           commitMessage: "KMP SPM packages release for ${{ steps.versionPropertyValue.outputs.propVal }}"
           tagMessage: "KMP release version ${{ steps.versionPropertyValue.outputs.propVal }}"
           tagVersion: ${{ steps.versionPropertyValue.outputs.propVal }}
-
