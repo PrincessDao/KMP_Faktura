@@ -11,14 +11,46 @@ jobs:
       contents: write
 
     steps:
-      - name: Delete all packages
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Clean packages
         run: |
-          gh api user/packages --paginate -q '.[].name' | while read package; do
-            echo "Deleting package: $package"
-            gh api -X DELETE /user/packages/maven/$package
+          output=$(curl --location "https://api.github.com/graphql" \
+            --header "Content-Type: application/json" \
+            --header "Authorization: Bearer $GITHUB_TOKEN" \
+            --data "{\"query\":\"query { repository(owner:\\\"owner-name\\\", name:\\\"Project-name\\\") { packages(first:100) { nodes { packageType name id versions(first:100) { nodes { id version readme } } } } }\"}")
+
+          if [ $? -ne 0 ]; then
+              echo "Error executing curl command to get packages: $output"
+              exit 1
+          fi
+
+          idsToDeletePackages=$(echo "$output" | jq -r '.data.repository.packages.nodes | map(.versions.nodes) | flatten | map(.id) | .[]')
+
+          if [ -z "$idsToDeletePackages" ]; then
+              echo "No versions to delete found."
+              exit 0
+          fi
+
+          for idToDelete in $idsToDeletePackages
+          do
+              echo "Deleting version with ID $idToDelete"
+
+              deleteOutput=$(curl --location "https://api.github.com/graphql" \
+                --header "Accept: application/vnd.github.package-deletes-preview+json" \
+                --header "Content-Type: application/json" \
+                --header "Authorization: Bearer $GITHUB_TOKEN" \
+                --data "{\"query\":\"mutation { deletePackageVersion(input: { packageVersionId: \\\"$idToDelete\\\" }) { success } }\"}")
+
+              if [ $? -ne 0 ]; then
+                  echo "Error executing curl command to delete version with ID $idToDelete: $deleteOutput"
+              else
+                  echo "Deleted version with ID $idToDelete: $deleteOutput"
+              fi
           done
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout with tags
         uses: actions/checkout@v4
