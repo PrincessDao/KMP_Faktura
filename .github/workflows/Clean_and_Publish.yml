@@ -1,0 +1,26 @@
+name: Trigger Clean and Publish Workflows
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger-cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger clean_up.yml workflow
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          workflow: 'clean_up.yml'
+          ref: 'refs/heads/main'
+
+  trigger-publish:
+    runs-on: ubuntu-latest
+    needs: trigger-cleanup
+    steps:
+      - name: Trigger publish-all.yml workflow
+        uses: peter-evans/workflow-dispatch@v1
+        with:
+          workflow: 'publish-all.yml'
+          ref: 'refs/heads/main'
