@@ -11,7 +11,7 @@ jobs:
       - name: Trigger clean_up.yml workflow
         run: |
           curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.KMP_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/${{ github.repository }}/actions/workflows/clean_up.yml/dispatches \
             -d '{"ref":"main"}'
@@ -23,7 +23,7 @@ jobs:
       - name: Trigger publish-all.yml workflow
         run: |
           curl -X POST \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.KMP_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/${{ github.repository }}/actions/workflows/publish-all.yml/dispatches \
             -d '{"ref":"main"}'
