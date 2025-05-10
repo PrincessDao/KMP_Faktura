@@ -9,7 +9,7 @@ jobs:
       contents: write
       packages: write
     concurrency: "kmmbridgepublish-${{ github.repository }}"
-    runs-on: macos-latest
+    runs-on: macos-13
 
     steps:
       - name: Checkout the repo with tags
@@ -42,12 +42,26 @@ jobs:
         with:
           path: |
             ~/.konan
-          key: ${{ runner.os }}-v1-${{ hashFiles('**/libs.versions.toml') }}
+          key: ${{ runner.os }}-konan-v1-${{ hashFiles('**/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-v1-
+
+      - name: Cache Gradle build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            kmp/.gradle
+            kmp/build/.gradle
+          key: ${{ runner.os }}-gradle-build-v1-${{ hashFiles('**/*.gradle*', '**/gradle.properties', '**/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-build-v1-
 
       - name: Build and Publish KMPLibrary
         run: ./gradlew :kmp:kmmBridgePublish :kmp:publish -PENABLE_PUBLISHING=true -PGITHUB_PUBLISH_TOKEN=${{ secrets.GITHUB_TOKEN }} -PGITHUB_REPO=${{ github.repository }} --no-daemon --stacktrace
         env:
-          GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
+          GRADLE_OPTS: -Dkotlin.incremental=false -Dorg.gradle.jvmargs="-Xmx4g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m"
 
       - name: Zip XCFramework
         run: |
