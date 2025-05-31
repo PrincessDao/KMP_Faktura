@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
+import org.jetbrains.kotlin.gradle.targets.native.tasks.CocoapodsTask
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -65,6 +66,7 @@ kotlin {
         binaries.framework {
             baseName = "KMPLibrary"
             export("org.jetbrains.skiko:skiko")
+            transitiveExport = true
             xcFramework.add(this)
         }
     }
@@ -89,11 +91,13 @@ kotlin {
                 implementation(libs.navigation.compose)
                 implementation(libs.resources)
                 implementation(libs.resourcesCompose)
-                implementation("org.jetbrains.skiko:skiko:0.9.16")
             }
         }
         val iosMain by creating {
             dependsOn(commonMain)
+            dependencies {
+                implementation(compose.ui)
+            }
         }
 
         iosX64Main { dependsOn(iosMain) }

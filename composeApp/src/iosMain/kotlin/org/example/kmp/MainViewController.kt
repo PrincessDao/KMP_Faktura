@@ -48,11 +48,6 @@ actual fun getScreenSizeProvider(): ScreenSizeProvider {
     return IOSScreenSizeProvider()
 }
 
-fun MainViewController() = ComposeUIViewController {
-    val platformController = IOSPlatformController(UIApplication.sharedApplication.keyWindow)
-    App(platformController)
-}
-
 fun parseColorHex(hex: String): Color {
     val cleanHex = hex.removePrefix("#")
     val colorLong = cleanHex.toLong(16)
