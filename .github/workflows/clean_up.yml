@@ -26,7 +26,9 @@ jobs:
               exit 1
           fi
 
-          idsToDeletePackages=$(echo "$output" | jq -r 'if .data.repository.packages.nodes != null then .data.repository.packages.nodes | map(.versions.nodes) | flatten | map(.id) | .[] else empty end')
+          echo "$output" | jq '.data.repository.packages.nodes[] | select(.name | startswith("deleted_") | not)'
+          
+          idsToDeletePackages=$(echo "$output" | jq -r '.data.repository.packages.nodes[] | .versions.nodes[] | .id')
 
 
           if [ -z "$idsToDeletePackages" ]; then
