@@ -26,6 +26,8 @@ jobs:
               exit 1
           fi
 
+          echo "$output"
+
           echo "$output" | jq '.data.repository.packages.nodes[] | select(.name | startswith("deleted_") | not)'
           
           idsToDeletePackages=$(echo "$output" | jq -r '.data.repository.packages.nodes[] | .versions.nodes[] | .id')
