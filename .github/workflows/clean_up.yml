@@ -19,7 +19,7 @@ jobs:
           output=$(curl --location "https://api.github.com/graphql" \
             --header "Content-Type: application/json" \
             --header "Authorization: Bearer $GITHUB_TOKEN" \
-            --data "{\"query\":\"query { repository(owner:\\\"owner-name\\\", name:\\\"Project-name\\\") { packages(first:100) { nodes { packageType name id versions(first:100) { nodes { id version readme } } } } }\"}")
+            --data "{\"query\":\"query { repository(owner:\\\"PrincessDao\\\", name:\\\"KMP_Faktura\\\") { packages(first:100) { nodes { packageType name id versions(first:100) { nodes { id version readme } } } } }\"}")
 
           if [ $? -ne 0 ]; then
               echo "Error executing curl command to get packages: $output"
