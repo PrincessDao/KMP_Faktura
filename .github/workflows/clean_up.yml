@@ -19,7 +19,9 @@ jobs:
           output=$(curl --location "https://api.github.com/graphql" \
             --header "Content-Type: application/json" \
             --header "Authorization: Bearer $GITHUB_TOKEN" \
-            --data "{\"query\":\"query { repository(owner:\\\"PrincessDao\\\", name:\\\"KMP_Faktura\\\") { packages(first:100) { nodes { packageType name id versions(first:100) { nodes { id version readme } } } } }\"}")
+            --data '{
+              "query": "query { repository(owner: \"PrincessDao\", name: \"KMP_Faktura\") { packages(first: 100) { nodes { packageType name id versions(first: 100) { nodes { id version readme } } } } } }"
+                }')
 
           if [ $? -ne 0 ]; then
               echo "Error executing curl command to get packages: $output"
@@ -43,16 +45,18 @@ jobs:
               echo "Deleting version with ID $idToDelete"
 
               deleteOutput=$(curl --location "https://api.github.com/graphql" \
-                --header "Accept: application/vnd.github.package-deletes-preview+json" \
-                --header "Content-Type: application/json" \
-                --header "Authorization: Bearer $GITHUB_TOKEN" \
-                --data "{\"query\":\"mutation { deletePackageVersion(input: { packageVersionId: \\\"$idToDelete\\\" }) { success } }\"}")
+                  --header "Accept: application/vnd.github.package-deletes-preview+json" \
+                  --header "Content-Type: application/json" \
+                  --header "Authorization: Bearer $GITHUB_TOKEN" \
+                  --data "{\"query\":\"mutation { deletePackageVersion(input: { packageVersionId: \\\"$idToDelete\\\" }) { success } }\"}")
 
-              if [ $? -ne 0 ]; then
-                  echo "Error executing curl command to delete version with ID $idToDelete: $deleteOutput"
-              else
-                  echo "Deleted version with ID $idToDelete: $deleteOutput"
-              fi
+          if echo "$deleteOutput" | jq -e '.errors' > /dev/null; then
+            echo "Ошибка при удалении версии с ID $idToDelete:"
+            echo "$deleteOutput" | jq '.errors'
+            else
+            echo "Версия с ID $idToDelete удалена успешно:"
+           echo "$deleteOutput" | jq '.data'
+            fi
           done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
