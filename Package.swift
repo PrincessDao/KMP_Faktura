@@ -14,7 +14,7 @@ let package = Package(
         .binaryTarget(
             name: "KMPLibrary",
             url: "https://github.com/PrincessDao/KMP_Faktura/releases/download/0.0.1/KMPLibrary.xcframework.zip",
-            checksum: "a45492c47ac0e8f5615a2f2a7882da271706c5a83fc5055a2d23c33c395b0959"
+            checksum: "74695cda486ea63dfe714077114265950f84d9551b1dda687f1a9b05ad6a67fa"
         )
     ]
 )
